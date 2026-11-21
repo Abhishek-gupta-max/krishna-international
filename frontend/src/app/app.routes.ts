@@ -62,11 +62,8 @@ export const routes: Routes = [
           seo: { title: 'Candidate Registration', description: 'Register your profile and upload your CV to be considered for overseas job opportunities.' },
         },
       },
-      {
-        path: 'gallery',
-        loadComponent: () => import('./features/gallery/gallery.component').then((m) => m.GalleryComponent),
-        data: { seo: { title: 'Gallery', description: 'Photographs of recruitment activities, workforce and company events.' } },
-      },
+      // Gallery page removed — old links go to the home page.
+      { path: 'gallery', redirectTo: '', pathMatch: 'full' },
       {
         path: 'contact',
         loadComponent: () => import('./features/contact/contact.component').then((m) => m.ContactComponent),

@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ApiResponse, Paged } from '../models/api.models';
-import { GalleryCategory, GalleryItem, Job, JobFilters } from '../models/domain.models';
+import { Job, JobFilters } from '../models/domain.models';
 import { API, toFormData, toPaged, toParams, unwrap } from './api.utils';
 
 export interface JobQuery {
@@ -77,9 +77,5 @@ export class PublicApiService {
 
   submitContact(payload: ContactPayload): Observable<ApiResponse<{ enquiryId: number }>> {
     return this.http.post<ApiResponse<{ enquiryId: number }>>(`${API}/contact`, payload);
-  }
-
-  gallery(category?: GalleryCategory | ''): Observable<GalleryItem[]> {
-    return this.http.get<ApiResponse<GalleryItem[]>>(`${API}/gallery`, { params: toParams({ category }) }).pipe(unwrap());
   }
 }
