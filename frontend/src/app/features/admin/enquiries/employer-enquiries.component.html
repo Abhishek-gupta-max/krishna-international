@@ -1,0 +1,101 @@
+<div class="admin-page">
+  <div class="admin-head">
+    <div>
+      <h1>Employer enquiries</h1>
+      <p>Manpower requirements submitted through the Hire Manpower form.</p>
+    </div>
+  </div>
+
+  <div class="md" [class.md--open]="!!selected()">
+    <section class="panel md__list">
+      <div class="toolbar toolbar--2">
+        <input class="input" type="search" [formControl]="search" placeholder="Search company, contact, email or country" aria-label="Search enquiries" />
+        <select class="select" [formControl]="filter" aria-label="Filter by status">
+          <option value="">All statuses</option>
+          @for (s of statuses; track s) {
+            <option [value]="s">{{ s | label }}</option>
+          }
+        </select>
+      </div>
+
+      @if (loading()) {
+        <div class="panel__body"><div class="skeleton" style="height: 220px"></div></div>
+      } @else if (items().length) {
+        <ul class="rows">
+          @for (e of items(); track e.id) {
+            <li>
+              <button type="button" class="row" [class.is-active]="selected()?.id === e.id" (click)="open(e.id)">
+                <span class="row__main">
+                  <strong>{{ e.employer.companyName }}</strong>
+                  <span>{{ e.employeesRequired }} workers · {{ e.employer.industry }} · {{ e.employer.country }}</span>
+                </span>
+                <span class="row__end">
+                  <span class="badge badge--{{ e.status }}">{{ e.status | label }}</span>
+                  <time>{{ e.createdAt | timeAgo }}</time>
+                </span>
+              </button>
+            </li>
+          }
+        </ul>
+        <div class="admin-pager">
+          <span>{{ meta()?.total }} enquiries</span>
+          <app-pagination [meta]="meta()" (pageChange)="load($event)" />
+        </div>
+      } @else {
+        <div class="admin-empty">
+          <app-icon name="building" [size]="32" />
+          <p>{{ search.value || filter.value ? 'No enquiries match your filters.' : 'No employer enquiries yet.' }}</p>
+        </div>
+      }
+    </section>
+
+    @if (selected(); as e) {
+      <section class="panel md__detail" id="enquiry-detail" aria-labelledby="enq-title">
+        <div class="panel__head">
+          <h2 id="enq-title">{{ e.employer.companyName }}</h2>
+          <button type="button" class="icon-btn" (click)="close()" aria-label="Close details"><app-icon name="close" [size]="18" /></button>
+        </div>
+        <div class="panel__body detail">
+          <dl class="detail-list">
+            <div><dt>Contact person</dt><dd>{{ e.employer.contactPerson }}</dd></div>
+            <div><dt>Email</dt><dd><a [href]="'mailto:' + e.employer.email">{{ e.employer.email }}</a></dd></div>
+            <div><dt>Phone</dt><dd><a [href]="'tel:' + e.employer.phone">{{ e.employer.phone }}</a></dd></div>
+            <div><dt>Country</dt><dd>{{ e.employer.country }}</dd></div>
+            <div><dt>Industry</dt><dd>{{ e.employer.industry }}</dd></div>
+            <div><dt>Employees required</dt><dd>{{ e.employeesRequired }}</dd></div>
+            <div><dt>Received</dt><dd>{{ e.createdAt | date: 'd MMM y, h:mm a' }}</dd></div>
+          </dl>
+          <div>
+            <h3 class="detail__h">Manpower requirements</h3>
+            <p class="text-block">{{ e.manpowerRequirements }}</p>
+          </div>
+          @if (e.message) {
+            <div>
+              <h3 class="detail__h">Additional message</h3>
+              <p class="text-block">{{ e.message }}</p>
+            </div>
+          }
+          <div class="field">
+            <label class="label" for="ee-status">Status</label>
+            <select id="ee-status" class="select" [formControl]="status">
+              @for (s of statuses; track s) {
+                <option [value]="s">{{ s | label }}</option>
+              }
+            </select>
+          </div>
+          <div class="field">
+            <label class="label" for="ee-notes">Internal notes</label>
+            <textarea id="ee-notes" class="textarea" rows="4" [formControl]="notes" placeholder="Visible to admins only"></textarea>
+          </div>
+          <div class="btn-row">
+            <button type="button" class="btn" (click)="save()" [disabled]="saving()">Save</button>
+            <a class="btn btn--outline" [href]="'mailto:' + e.employer.email + '?subject=' + ('Your manpower requirement – Krishna International Overseas Services' | encodeUri)">
+              <app-icon name="mail" [size]="16" /> Reply by email
+            </a>
+            <button type="button" class="btn btn--ghost" style="color: var(--color-danger)" (click)="remove()">Delete</button>
+          </div>
+        </div>
+      </section>
+    }
+  </div>
+</div>

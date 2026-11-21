@@ -1,0 +1,92 @@
+<app-page-header
+  title="Job Opportunities"
+  crumb="Jobs"
+  image="service-industrial"
+  intro="Current vacancies confirmed by employers. Search by keyword, country or industry and apply online."
+/>
+
+<section class="section">
+  <div class="container">
+    <form class="filters" role="search" (submit)="$event.preventDefault()" aria-label="Filter jobs">
+      <div class="field filters__search">
+        <label class="sr-only" for="job-search">Search jobs</label>
+        <app-icon name="search" [size]="18" />
+        <input id="job-search" class="input" type="search" [formControl]="search" placeholder="Search by job title or trade" autocomplete="off" />
+      </div>
+      <div class="field">
+        <label class="sr-only" for="job-country">Country</label>
+        <select id="job-country" class="select" [formControl]="country">
+          <option value="">All countries</option>
+          @for (c of filters().countries; track c) {
+            <option [value]="c">{{ c }}</option>
+          }
+        </select>
+      </div>
+      <div class="field">
+        <label class="sr-only" for="job-industry">Industry</label>
+        <select id="job-industry" class="select" [formControl]="industry">
+          <option value="">All industries</option>
+          @for (i of filters().industries; track i) {
+            <option [value]="i">{{ i }}</option>
+          }
+        </select>
+      </div>
+      @if (hasFilters) {
+        <button type="button" class="btn btn--ghost" (click)="clear()">Clear</button>
+      }
+    </form>
+
+    <p class="results-count" aria-live="polite">
+      @if (!loading() && meta(); as m) {
+        {{ m.total }} {{ m.total === 1 ? 'vacancy' : 'vacancies' }} found
+      }
+    </p>
+
+    @if (loading()) {
+      <div class="grid grid--3">
+        @for (i of [1, 2, 3, 4, 5, 6]; track i) {
+          <div class="skeleton" style="height: 250px"></div>
+        }
+      </div>
+    } @else if (failed()) {
+      <div class="empty-state">
+        <app-icon name="alert" />
+        <h3>Vacancies could not be loaded</h3>
+        <p>Please refresh the page in a moment. You can also call us on {{ site.settings().phone_primary }} to ask about openings.</p>
+      </div>
+    } @else if (jobs().length) {
+      <div class="grid grid--3">
+        @for (job of jobs(); track job.id) {
+          <app-job-card [job]="job" />
+        }
+      </div>
+      <app-pagination [meta]="meta()" (pageChange)="goToPage($event)" />
+    } @else {
+      <div class="empty-state">
+        <app-icon name="briefcase" />
+        @if (hasFilters) {
+          <h3>No vacancies match your search</h3>
+          <p>Try a different keyword or clear the filters to see all current openings.</p>
+          <button type="button" class="btn btn--outline" (click)="clear()">Clear filters</button>
+        } @else {
+          <h3>No open vacancies at the moment</h3>
+          <p>New jobs are published as soon as employers confirm their requirements. Register your profile so we can contact you when a suitable job opens.</p>
+          <a routerLink="/candidates" class="btn">Register your profile</a>
+        }
+      </div>
+    }
+  </div>
+</section>
+
+<section class="section section--alt section--tight">
+  <div class="container notice">
+    <app-icon name="shield" [size]="28" />
+    <div>
+      <h2>Protect yourself from recruitment fraud</h2>
+      <p>
+        If someone contacts you about a job in our name, confirm it by calling our office on
+        <a [href]="site.phoneHref()">{{ site.settings().phone_primary }}</a> before sharing documents or making any payment.
+      </p>
+    </div>
+  </div>
+</section>

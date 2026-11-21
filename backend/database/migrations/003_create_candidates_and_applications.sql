@@ -1,0 +1,46 @@
+-- A candidate is a person; an application links a candidate to a job (or is a general registration when job_id is NULL).
+CREATE TABLE candidates (
+  id                  INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  full_name           VARCHAR(120) NOT NULL,
+  mobile              VARCHAR(20)  NOT NULL,
+  email               VARCHAR(190) NOT NULL,
+  qualification       VARCHAR(120) NOT NULL,
+  experience_years    DECIMAL(4,1) NOT NULL DEFAULT 0,
+  current_location    VARCHAR(120) NULL,
+  preferred_country   VARCHAR(80)  NOT NULL,
+  preferred_category  VARCHAR(80)  NOT NULL,
+  passport_available  TINYINT(1)   NULL,
+  cv_path             VARCHAR(255) NULL,
+  cv_original_name    VARCHAR(255) NULL,
+  cv_mime             VARCHAR(120) NULL,
+  cv_size             INT UNSIGNED NULL,
+  created_at          DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at          DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  deleted_at          DATETIME NULL,
+  PRIMARY KEY (id),
+  KEY idx_candidates_email (email),
+  KEY idx_candidates_mobile (mobile),
+  KEY idx_candidates_pref (preferred_country, preferred_category)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE applications (
+  id            INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  candidate_id  INT UNSIGNED NOT NULL,
+  job_id        INT UNSIGNED NULL,
+  source        ENUM('job_application', 'registration') NOT NULL DEFAULT 'registration',
+  status        ENUM('new', 'reviewed', 'shortlisted', 'rejected', 'hired') NOT NULL DEFAULT 'new',
+  cover_note    TEXT NULL,
+  admin_notes   TEXT NULL,
+  reviewed_by   INT UNSIGNED NULL,
+  reviewed_at   DATETIME NULL,
+  created_at    DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at    DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  deleted_at    DATETIME NULL,
+  PRIMARY KEY (id),
+  KEY idx_applications_status (status, deleted_at, created_at),
+  KEY idx_applications_job (job_id),
+  KEY idx_applications_candidate (candidate_id),
+  CONSTRAINT fk_applications_candidate FOREIGN KEY (candidate_id) REFERENCES candidates (id) ON DELETE CASCADE,
+  CONSTRAINT fk_applications_job FOREIGN KEY (job_id) REFERENCES jobs (id) ON DELETE SET NULL,
+  CONSTRAINT fk_applications_reviewer FOREIGN KEY (reviewed_by) REFERENCES admins (id) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

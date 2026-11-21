@@ -1,0 +1,7 @@
+node_modules/
+.env
+logs/*.log
+src/uploads/cvs/*
+src/uploads/gallery/*
+!src/uploads/**/.gitkeep
+coverage/

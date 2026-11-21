@@ -1,0 +1,121 @@
+<div class="admin-page">
+  <div class="admin-head">
+    <div>
+      <h1>Gallery</h1>
+      <p>Upload the company's own photographs. Images are resized, converted to WebP and stripped of location metadata automatically.</p>
+    </div>
+  </div>
+
+  <section class="panel">
+    <div class="panel__head"><h2>Upload a photograph</h2></div>
+    <form class="panel__body upload" [formGroup]="form" (ngSubmit)="upload()" novalidate>
+      <div class="upload__file">
+        @if (preview(); as p) {
+          <div class="upload__preview">
+            <img [src]="p" alt="Selected image preview" />
+            <button type="button" class="icon-btn" (click)="clearFile()" aria-label="Remove selected image"><app-icon name="close" [size]="16" /></button>
+          </div>
+          <span class="hint">{{ file()?.name }} · {{ file()?.size | fileSize }}</span>
+        } @else {
+          <label class="file-drop" [class.is-invalid]="!!fileError()">
+            <app-icon name="upload" />
+            <div>
+              <strong>Choose an image</strong>
+              <span>JPG, PNG or WEBP · up to 6 MB</span>
+            </div>
+            <input type="file" accept="image/jpeg,image/png,image/webp" (change)="onFile($event)" />
+          </label>
+        }
+        @if (fileError()) {
+          <span class="error-text" role="alert">{{ fileError() }}</span>
+        }
+      </div>
+
+      <div class="upload__fields">
+        <div class="field">
+          <label class="label" for="g-title">Title<span class="req">*</span></label>
+          <input id="g-title" class="input" formControlName="title" />
+          <app-field-error [control]="form.controls.title" label="Title" />
+        </div>
+        <div class="field">
+          <label class="label" for="g-cat">Category</label>
+          <select id="g-cat" class="select" formControlName="category">
+            @for (c of categories; track c) {
+              <option [value]="c">{{ c | label }}</option>
+            }
+          </select>
+        </div>
+        <div class="field">
+          <label class="label" for="g-cap">Caption<span class="opt">(optional)</span></label>
+          <input id="g-cap" class="input" formControlName="caption" />
+        </div>
+        <label class="checkbox"><input type="checkbox" formControlName="isPublished" /> <span>Show on website immediately</span></label>
+        <div>
+          <button type="submit" class="btn" [disabled]="uploading()">
+            @if (uploading()) {
+              <span class="spinner" aria-hidden="true"></span> Uploading…
+            } @else {
+              <app-icon name="upload" [size]="16" /> Upload image
+            }
+          </button>
+        </div>
+      </div>
+    </form>
+  </section>
+
+  <section class="panel">
+    <div class="panel__head">
+      <h2>All images</h2>
+      <span class="hint">{{ items().length }} images · lower sort numbers appear first</span>
+    </div>
+    @if (loading()) {
+      <div class="panel__body"><div class="skeleton" style="height: 200px"></div></div>
+    } @else if (items().length) {
+      <ul class="g-grid">
+        @for (item of items(); track item.id) {
+          <li class="g-item" [class.is-hidden]="!item.isPublished">
+            <div class="g-item__img">
+              <img [src]="url(item.thumbUrl)" [alt]="item.title" loading="lazy" />
+              @if (!item.isPublished) {
+                <span class="badge g-item__badge">Hidden</span>
+              }
+            </div>
+            @if (editing() === item.id) {
+              <form class="g-item__edit" [formGroup]="editForm" (ngSubmit)="saveEdit(item)">
+                <input class="input" formControlName="title" aria-label="Title" />
+                <input class="input" formControlName="caption" placeholder="Caption" aria-label="Caption" />
+                <div class="g-item__row">
+                  <select class="select" formControlName="category" aria-label="Category">
+                    @for (c of categories; track c) {
+                      <option [value]="c">{{ c | label }}</option>
+                    }
+                  </select>
+                  <input class="input" type="number" formControlName="sortOrder" aria-label="Sort order" style="max-width: 90px" />
+                </div>
+                <div class="g-item__row">
+                  <button type="submit" class="btn btn--sm">Save</button>
+                  <button type="button" class="btn btn--ghost btn--sm" (click)="editing.set(null)">Cancel</button>
+                </div>
+              </form>
+            } @else {
+              <div class="g-item__body">
+                <strong>{{ item.title }}</strong>
+                <span>{{ item.category | label }} · order {{ item.sortOrder }}</span>
+              </div>
+              <div class="g-item__actions">
+                <button type="button" class="btn btn--outline btn--sm" (click)="togglePublish(item)">{{ item.isPublished ? 'Hide' : 'Publish' }}</button>
+                <button type="button" class="icon-btn" (click)="startEdit(item)" aria-label="Edit details"><app-icon name="edit" [size]="16" /></button>
+                <button type="button" class="icon-btn icon-btn--danger" (click)="remove(item)" aria-label="Delete image"><app-icon name="trash" [size]="16" /></button>
+              </div>
+            }
+          </li>
+        }
+      </ul>
+    } @else {
+      <div class="admin-empty">
+        <app-icon name="image" [size]="32" />
+        <p>No images yet. The public gallery shows a "coming soon" message until you upload photographs.</p>
+      </div>
+    }
+  </section>
+</div>

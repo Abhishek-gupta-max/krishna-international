@@ -1,0 +1,75 @@
+// Master–detail layout shared by employer enquiries and contact messages.
+.md {
+  display: grid;
+  gap: var(--sp-5);
+  align-items: start;
+
+  &--open {
+    @media (min-width: 1200px) { grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); }
+  }
+
+  &__list, &__detail { min-width: 0; }
+
+  &__detail {
+    @media (min-width: 1200px) {
+      position: sticky;
+      top: 80px;
+    }
+  }
+}
+
+.toolbar--2 {
+  @media (min-width: 768px) { grid-template-columns: minmax(0, 1fr) 180px; }
+}
+
+.rows { margin: 0; padding: 0; list-style: none; }
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-4);
+  width: 100%;
+  padding: 14px var(--sp-5);
+  border: 0;
+  border-bottom: 1px solid var(--grey-100);
+  border-left: 3px solid transparent;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+
+  &:hover { background: var(--grey-25); }
+  &.is-active { background: var(--navy-50); border-left-color: var(--gold-500); }
+  &.is-unread strong { font-weight: 700; }
+
+  &__main {
+    min-width: 0;
+    strong { display: block; font-size: var(--fs-sm); color: var(--navy-900); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    span { display: block; font-size: var(--fs-xs); color: var(--grey-500); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  }
+
+  &__end {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+    flex: none;
+    time { font-size: 0.6875rem; color: var(--grey-500); }
+  }
+}
+
+.detail {
+  display: grid;
+  gap: var(--sp-5);
+
+  &__h {
+    margin-bottom: var(--sp-2);
+    font-size: var(--fs-xs);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--grey-500);
+  }
+
+  .text-block { margin: 0; padding: var(--sp-4); background: var(--grey-25); border: 1px solid var(--grey-100); border-radius: var(--radius); }
+}

@@ -1,0 +1,9 @@
+/* Global stylesheet — Krishna International Overseas Services
+   Partials are ordered from tokens → base → layout → components. */
+@use 'styles/tokens';
+@use 'styles/base';
+@use 'styles/layout';
+@use 'styles/buttons';
+@use 'styles/forms';
+@use 'styles/components';
+@use 'styles/admin';

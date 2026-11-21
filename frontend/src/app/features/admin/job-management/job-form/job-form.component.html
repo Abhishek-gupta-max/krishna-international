@@ -1,0 +1,129 @@
+<div class="admin-page">
+  <a routerLink="/admin/jobs" class="back-link"><app-icon name="arrow-left" [size]="16" /> All jobs</a>
+  <div class="admin-head">
+    <div>
+      <h1>{{ isEdit ? 'Edit job' : 'Add new job' }}</h1>
+      <p>
+        @if (currentStatus(); as st) {
+          Current status: <span class="badge badge--{{ st }}">{{ st }}</span>
+        } @else {
+          Fill in the details confirmed by the employer. Only verified salary and vacancy numbers should be entered.
+        }
+      </p>
+    </div>
+    @if (slug() && currentStatus() === 'published') {
+      <a class="btn btn--outline btn--sm" [href]="'/jobs/' + slug()" target="_blank" rel="noopener"><app-icon name="external" [size]="16" /> View on website</a>
+    }
+  </div>
+
+  @if (error()) {
+    <div class="alert alert--error" role="alert"><app-icon name="alert" /><p>{{ error() }}</p></div>
+  }
+
+  @if (loading()) {
+    <div class="skeleton" style="height: 480px"></div>
+  } @else {
+    <form [formGroup]="form" (ngSubmit)="save(currentStatus() ?? 'published')" novalidate class="panel">
+      <div class="panel__body">
+        <div class="form-grid">
+          <p class="form-legend">Position</p>
+          <div class="field span-2">
+            <label class="label" for="j-title">Job title<span class="req">*</span></label>
+            <input id="j-title" class="input" formControlName="title" placeholder="e.g. Electrician" />
+            <app-field-error [control]="form.controls.title" label="Job title" />
+          </div>
+          <div class="field">
+            <label class="label" for="j-country">Country<span class="req">*</span></label>
+            <input id="j-country" class="input" formControlName="country" list="country-list" />
+            <datalist id="country-list">
+              @for (c of countries; track c) {
+                <option [value]="c"></option>
+              }
+            </datalist>
+            <app-field-error [control]="form.controls.country" label="Country" />
+          </div>
+          <div class="field">
+            <label class="label" for="j-city">City<span class="opt">(optional)</span></label>
+            <input id="j-city" class="input" formControlName="city" />
+          </div>
+          <div class="field">
+            <label class="label" for="j-industry">Industry<span class="req">*</span></label>
+            <select id="j-industry" class="select" formControlName="industry">
+              <option value="" disabled>Select industry</option>
+              @for (i of industries; track i) {
+                <option [value]="i">{{ i }}</option>
+              }
+            </select>
+            <app-field-error [control]="form.controls.industry" label="Industry" />
+          </div>
+          <div class="field">
+            <label class="label" for="j-type">Employment type<span class="req">*</span></label>
+            <select id="j-type" class="select" formControlName="employmentType">
+              <option value="contract">Contract</option>
+              <option value="full_time">Full time</option>
+              <option value="part_time">Part time</option>
+            </select>
+          </div>
+          <div class="field">
+            <label class="label" for="j-exp">Required experience<span class="req">*</span></label>
+            <input id="j-exp" class="input" formControlName="experience" placeholder="e.g. 2–5 years" />
+            <app-field-error [control]="form.controls.experience" label="Experience" />
+          </div>
+          <div class="field">
+            <label class="label" for="j-deadline">Application deadline<span class="opt">(optional)</span></label>
+            <input id="j-deadline" class="input" type="date" formControlName="applicationDeadline" />
+            <span class="hint">The job is hidden from the website after this date.</span>
+          </div>
+
+          <p class="form-legend">Verified terms — leave blank if not yet confirmed</p>
+          <div class="field">
+            <label class="label" for="j-salary">Salary<span class="opt">(optional)</span></label>
+            <input id="j-salary" class="input" formControlName="salary" placeholder="e.g. AED 1,800 – 2,200 per month" />
+          </div>
+          <div class="field">
+            <label class="label" for="j-vac">Number of vacancies<span class="opt">(optional)</span></label>
+            <input id="j-vac" class="input" type="number" min="1" formControlName="vacancies" />
+            <app-field-error [control]="form.controls.vacancies" label="Vacancies" />
+          </div>
+
+          <p class="form-legend">Details</p>
+          <div class="field span-2">
+            <label class="label" for="j-desc">Job description<span class="req">*</span></label>
+            <textarea id="j-desc" class="textarea" rows="6" formControlName="description" placeholder="Duties, working hours, site details…"></textarea>
+            <span class="hint">Line breaks are preserved on the website.</span>
+            <app-field-error [control]="form.controls.description" label="Description" />
+          </div>
+          <div class="field span-2">
+            <label class="label" for="j-req">Requirements<span class="req">*</span></label>
+            <textarea id="j-req" class="textarea" rows="5" formControlName="requirements" placeholder="One requirement per line"></textarea>
+            <app-field-error [control]="form.controls.requirements" label="Requirements" />
+          </div>
+          <div class="field span-2">
+            <label class="label" for="j-ben">Benefits &amp; terms<span class="opt">(optional)</span></label>
+            <textarea id="j-ben" class="textarea" rows="4" formControlName="benefits" placeholder="Accommodation, food, transport, contract duration…"></textarea>
+          </div>
+          <div class="field span-2">
+            <label class="checkbox">
+              <input type="checkbox" formControlName="isFeatured" />
+              <span>Feature this job (shown first on the home page and jobs list)</span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="admin-pager" style="justify-content: flex-end">
+        <a routerLink="/admin/jobs" class="btn btn--ghost">Cancel</a>
+        <button type="button" class="btn btn--outline" (click)="save('draft')" [disabled]="saving()">Save as draft</button>
+        @if (isEdit && currentStatus() !== 'closed') {
+          <button type="button" class="btn btn--outline" (click)="save('closed')" [disabled]="saving()">Save &amp; close vacancy</button>
+        }
+        <button type="button" class="btn" (click)="save('published')" [disabled]="saving()">
+          @if (saving()) {
+            <span class="spinner" aria-hidden="true"></span>
+          }
+          {{ currentStatus() === 'published' ? 'Save changes' : 'Save & publish' }}
+        </button>
+      </div>
+    </form>
+  }
+</div>

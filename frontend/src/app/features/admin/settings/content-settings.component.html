@@ -1,0 +1,134 @@
+<div class="admin-page">
+  <div class="admin-head">
+    <div>
+      <h1>Website content</h1>
+      <p>Edit the text shown on the Home and About pages. Line breaks are preserved.</p>
+    </div>
+  </div>
+
+  @if (loading()) {
+    <div class="skeleton" style="height: 520px"></div>
+  } @else {
+    <form [formGroup]="form" (ngSubmit)="save()" class="admin-page">
+      <section class="panel">
+        <div class="panel__head"><h2>Home page hero</h2></div>
+        <div class="panel__body stack-sm">
+          <div class="field">
+            <label class="label" for="c-hero-title">Headline<span class="req">*</span></label>
+            <input id="c-hero-title" class="input" formControlName="hero_title" />
+          </div>
+          <div class="field">
+            <label class="label" for="c-hero-sub">Introduction<span class="req">*</span></label>
+            <textarea id="c-hero-sub" class="textarea" rows="3" formControlName="hero_subtitle"></textarea>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel__head"><h2>About the company</h2></div>
+        <div class="panel__body stack-sm">
+          <div class="field">
+            <label class="label" for="c-about-sum">Short summary<span class="req">*</span></label>
+            <textarea id="c-about-sum" class="textarea" rows="3" formControlName="about_summary"></textarea>
+            <span class="hint">Used on the Home page, About page and footer.</span>
+          </div>
+          <div class="field">
+            <label class="label" for="c-about-body">Full introduction</label>
+            <textarea id="c-about-body" class="textarea" rows="7" formControlName="about_body"></textarea>
+          </div>
+          <div class="form-grid">
+            <div class="field">
+              <label class="label" for="c-vision">Vision</label>
+              <textarea id="c-vision" class="textarea" rows="3" formControlName="vision"></textarea>
+            </div>
+            <div class="field">
+              <label class="label" for="c-mission">Mission</label>
+              <textarea id="c-mission" class="textarea" rows="3" formControlName="mission"></textarea>
+            </div>
+          </div>
+          <div class="field">
+            <label class="label" for="c-mgmt">Management introduction</label>
+            <textarea id="c-mgmt" class="textarea" rows="3" formControlName="management_intro"></textarea>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel__head">
+          <h2>Company objectives</h2>
+          <button type="button" class="btn btn--outline btn--sm" (click)="addObjective()"><app-icon name="plus" [size]="16" /> Add objective</button>
+        </div>
+        <div class="panel__body stack-sm" formArrayName="objectives">
+          @for (ctrl of objectives.controls; track $index; let i = $index) {
+            <div class="list-row">
+              <input class="input" [formControlName]="i" [attr.aria-label]="'Objective ' + (i + 1)" />
+              <button type="button" class="icon-btn icon-btn--danger" (click)="removeObjective(i)" aria-label="Remove objective"><app-icon name="trash" [size]="16" /></button>
+            </div>
+          } @empty {
+            <p class="hint" style="margin: 0">No objectives. The section is hidden on the website.</p>
+          }
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel__head">
+          <h2>Testimonials</h2>
+          <button type="button" class="btn btn--outline btn--sm" (click)="addTestimonial()"><app-icon name="plus" [size]="16" /> Add testimonial</button>
+        </div>
+        <div class="panel__body stack-sm" formArrayName="testimonials">
+          <div class="alert alert--info">
+            <app-icon name="info" />
+            <p>Add only genuine testimonials from real employers or candidates, with their permission. The section is hidden on the website while this list is empty.</p>
+          </div>
+          @for (group of testimonials.controls; track $index; let i = $index) {
+            <div class="t-card" [formGroupName]="i">
+              <div class="t-card__head">
+                Testimonial {{ i + 1 }}
+                <button type="button" class="icon-btn icon-btn--danger" (click)="removeTestimonial(i)" aria-label="Remove testimonial"><app-icon name="trash" [size]="16" /></button>
+              </div>
+              <div class="form-grid">
+                <div class="field">
+                  <label class="label" [for]="'t-name-' + i">Name<span class="req">*</span></label>
+                  <input class="input" [id]="'t-name-' + i" formControlName="name" />
+                </div>
+                <div class="field">
+                  <label class="label" [for]="'t-role-' + i">Role / company</label>
+                  <input class="input" [id]="'t-role-' + i" formControlName="role" />
+                </div>
+                <div class="field span-2">
+                  <label class="label" [for]="'t-quote-' + i">Quote<span class="req">*</span></label>
+                  <textarea class="textarea" rows="3" [id]="'t-quote-' + i" formControlName="quote"></textarea>
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel__head"><h2>Search engines</h2></div>
+        <div class="panel__body">
+          <div class="field">
+            <label class="label" for="c-meta">Default meta description</label>
+            <textarea id="c-meta" class="textarea" rows="2" formControlName="meta_description"></textarea>
+            <span class="hint">About 150 characters, shown in search results.</span>
+          </div>
+        </div>
+      </section>
+
+      <div class="save-bar">
+        <button type="submit" class="btn" [disabled]="saving() || form.pristine">
+          @if (saving()) {
+            <span class="spinner" aria-hidden="true"></span>
+          } @else {
+            <app-icon name="check" [size]="16" />
+          }
+          Save content
+        </button>
+        @if (form.dirty) {
+          <span class="hint">You have unsaved changes.</span>
+        }
+      </div>
+    </form>
+  }
+</div>

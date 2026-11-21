@@ -1,0 +1,155 @@
+@if (success(); as msg) {
+  <div class="alert alert--success" role="status">
+    <app-icon name="check-circle" />
+    <div>
+      <p><strong>Thank you{{ jobTitle() ? ' for applying' : ' for registering' }}.</strong> {{ msg }}</p>
+      <p>
+        Please keep your phone available. You can also message us on
+        <a [href]="site.whatsappLink('job', jobTitle())" target="_blank" rel="noopener noreferrer">WhatsApp</a>.
+      </p>
+      <button type="button" class="btn btn--outline btn--sm" (click)="reset()">Submit another application</button>
+    </div>
+  </div>
+} @else {
+  <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+    @if (error()) {
+      <div class="alert alert--error" role="alert" style="margin-bottom: var(--sp-5)">
+        <app-icon name="alert" />
+        <p>{{ error() }}</p>
+      </div>
+    }
+
+    <div class="form-grid">
+      <p class="form-legend">Personal details</p>
+
+      <div class="field span-2">
+        <label class="label" for="c-name">Full name<span class="req">*</span></label>
+        <input id="c-name" class="input" formControlName="fullName" autocomplete="name" />
+        <app-field-error [control]="form.controls.fullName" label="Full name" />
+      </div>
+
+      <div class="field">
+        <label class="label" for="c-mobile">Mobile number<span class="req">*</span></label>
+        <input id="c-mobile" class="input" type="tel" formControlName="mobile" autocomplete="tel" inputmode="tel" placeholder="+91 98765 43210" />
+        <app-field-error [control]="form.controls.mobile" label="Mobile number" />
+      </div>
+
+      <div class="field">
+        <label class="label" for="c-email">Email<span class="req">*</span></label>
+        <input id="c-email" class="input" type="email" formControlName="email" autocomplete="email" />
+        <app-field-error [control]="form.controls.email" label="Email" />
+      </div>
+
+      <div class="field">
+        <label class="label" for="c-location">Current city / district<span class="opt">(optional)</span></label>
+        <input id="c-location" class="input" formControlName="currentLocation" autocomplete="address-level2" />
+      </div>
+
+      <div class="field">
+        <span class="label" id="c-passport-label">Do you have a valid passport?<span class="opt">(optional)</span></span>
+        <div class="radio-row" role="radiogroup" aria-labelledby="c-passport-label">
+          <label><input type="radio" formControlName="passportAvailable" value="true" /> Yes</label>
+          <label><input type="radio" formControlName="passportAvailable" value="false" /> No</label>
+        </div>
+      </div>
+
+      <p class="form-legend">Qualification &amp; experience</p>
+
+      <div class="field">
+        <label class="label" for="c-qual">Highest qualification<span class="req">*</span></label>
+        <select id="c-qual" class="select" formControlName="qualification">
+          <option value="" disabled>Select qualification</option>
+          @for (q of qualifications; track q) {
+            <option [value]="q">{{ q }}</option>
+          }
+        </select>
+        <app-field-error [control]="form.controls.qualification" label="Qualification" />
+      </div>
+
+      <div class="field">
+        <label class="label" for="c-exp">Total experience (years)<span class="req">*</span></label>
+        <input id="c-exp" class="input" type="number" min="0" max="50" step="0.5" inputmode="decimal" formControlName="experienceYears" />
+        <app-field-error [control]="form.controls.experienceYears" label="Experience" />
+      </div>
+
+      <div class="field">
+        <label class="label" for="c-country">Preferred country<span class="req">*</span></label>
+        <select id="c-country" class="select" formControlName="preferredCountry">
+          <option value="" disabled>Select country</option>
+          @for (c of countries; track c) {
+            <option [value]="c">{{ c }}</option>
+          }
+        </select>
+        <app-field-error [control]="form.controls.preferredCountry" label="Preferred country" />
+      </div>
+
+      <div class="field">
+        <label class="label" for="c-cat">Preferred job category<span class="req">*</span></label>
+        <select id="c-cat" class="select" formControlName="preferredCategory">
+          <option value="" disabled>Select category</option>
+          @for (c of categories; track c) {
+            <option [value]="c">{{ c }}</option>
+          }
+        </select>
+        <app-field-error [control]="form.controls.preferredCategory" label="Job category" />
+      </div>
+
+      <div class="field span-2">
+        <span class="label" id="c-cv-label">Upload CV<span class="opt">(PDF, DOC or DOCX, up to 5 MB)</span></span>
+        @if (cv(); as file) {
+          <div class="file-drop">
+            <app-icon name="file" />
+            <div style="flex: 1; min-width: 0">
+              <strong>{{ file.name }}</strong>
+              <span>{{ file.size | fileSize }}</span>
+            </div>
+            <button type="button" class="btn btn--ghost btn--sm" (click)="removeFile()">Remove</button>
+          </div>
+        } @else {
+          <div
+            class="file-drop"
+            [class.is-dragging]="dragging()"
+            [class.is-invalid]="!!cvError()"
+            (dragover)="$event.preventDefault(); dragging.set(true)"
+            (dragleave)="dragging.set(false)"
+            (drop)="onDrop($event)"
+          >
+            <app-icon name="upload" />
+            <div>
+              <strong>Choose a file or drag it here</strong>
+              <span>A CV helps us match you to the right vacancy faster.</span>
+            </div>
+            <input type="file" accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" aria-labelledby="c-cv-label" (change)="onFileChange($event)" />
+          </div>
+        }
+        @if (cvError()) {
+          <span class="error-text" role="alert">{{ cvError() }}</span>
+        }
+      </div>
+
+      <div class="field span-2">
+        <label class="label" for="c-note">{{ jobTitle() ? 'Why are you suitable for this job?' : 'Anything else we should know?' }}<span class="opt">(optional)</span></label>
+        <textarea id="c-note" class="textarea" rows="4" formControlName="coverNote"></textarea>
+      </div>
+
+      <div class="field span-2">
+        <label class="checkbox">
+          <input type="checkbox" formControlName="consent" />
+          <span>I confirm that the information above is correct and I agree to be contacted by Krishna International Overseas Services about job opportunities.</span>
+        </label>
+        <app-field-error [control]="form.controls.consent" label="Consent" />
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" class="btn btn--lg" [disabled]="submitting()">
+        @if (submitting()) {
+          <span class="spinner" aria-hidden="true"></span> Submitting…
+        } @else {
+          {{ jobTitle() ? 'Submit application' : 'Register now' }}
+        }
+      </button>
+      <span class="hint">Fields marked <span class="req" style="color: var(--color-danger)">*</span> are required.</span>
+    </div>
+  </form>
+}

@@ -1,0 +1,153 @@
+<div class="admin-page">
+  <div class="admin-head">
+    <div>
+      <h1>Dashboard</h1>
+      <p>Welcome back{{ auth.admin() ? ', ' + auth.admin()!.name : '' }}. Figures are live from the database.</p>
+    </div>
+    <a routerLink="/admin/jobs/new" class="btn btn--sm"><app-icon name="plus" [size]="16" /> Add job</a>
+  </div>
+
+  @if (error()) {
+    <div class="alert alert--error" role="alert"><app-icon name="alert" /><p>{{ error() }}</p></div>
+  }
+
+  @if (data(); as d) {
+    <!-- KPI tiles -->
+    <section class="tiles" aria-label="Key figures">
+      @for (t of tiles(); track t.label) {
+        <a class="tile" [routerLink]="t.link" [class.tile--hl]="t.highlight">
+          <span class="tile__label">{{ t.label }}</span>
+          <span class="tile__value">{{ t.value }}</span>
+          <span class="tile__note">{{ t.note }}</span>
+        </a>
+      }
+    </section>
+
+    <div class="dash-grid">
+      @if (isManager()) {
+        <!-- Applications trend -->
+        <section class="panel">
+          <div class="panel__head">
+            <h2>Applications received — last 14 days</h2>
+            <span class="muted">{{ chart().total }} total</span>
+          </div>
+          <div class="panel__body">
+            <div class="chart" role="img" [attr.aria-label]="'Bar chart of applications per day over the last 14 days, ' + chart().total + ' in total. Data table follows.'">
+              <div class="chart__grid" aria-hidden="true">
+                @for (tick of chart().ticks; track tick) {
+                  <div class="chart__tick" [style.bottom.%]="(tick / chart().top) * 100"><span>{{ tick }}</span></div>
+                }
+              </div>
+              <div class="chart__bars">
+                @for (b of chart().bars; track b.date; let i = $index) {
+                  <div class="chart__col" (mouseenter)="hover.set(i)" (mouseleave)="hover.set(null)" (focus)="hover.set(i)" (blur)="hover.set(null)" tabindex="0" [attr.aria-label]="(b.date | date: 'd MMM') + ': ' + b.count">
+                    <div class="chart__bar" [style.height.%]="b.pct" [class.is-zero]="b.count === 0"></div>
+                    @if (hover() === i) {
+                      <div class="chart__tip" role="tooltip">
+                        <strong>{{ b.count }}</strong> {{ b.count === 1 ? 'application' : 'applications' }}
+                        <span>{{ b.date | date: 'EEE, d MMM' }}</span>
+                      </div>
+                    }
+                  </div>
+                }
+              </div>
+            </div>
+            <div class="chart__axis" aria-hidden="true">
+              @for (b of chart().bars; track b.date; let i = $index) {
+                <span>{{ (chart().bars.length - 1 - i) % 2 === 0 ? (b.date | date: 'd MMM') : '' }}</span>
+              }
+            </div>
+            <table class="sr-only">
+              <caption>Applications per day</caption>
+              <thead><tr><th scope="col">Date</th><th scope="col">Applications</th></tr></thead>
+              <tbody>
+                @for (b of chart().bars; track b.date) {
+                  <tr><td>{{ b.date }}</td><td>{{ b.count }}</td></tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </section>
+      }
+
+      <!-- Activity -->
+      <section class="panel">
+        <div class="panel__head"><h2>Recent activity</h2></div>
+        @if (d.recentActivity.length) {
+          <ul class="activity">
+            @for (a of d.recentActivity; track a.id) {
+              <li>
+                <span>{{ activityText(a) }}</span>
+                <time [attr.datetime]="a.createdAt">{{ a.createdAt | timeAgo }}</time>
+              </li>
+            }
+          </ul>
+        } @else {
+          <div class="admin-empty"><p>No activity recorded yet.</p></div>
+        }
+      </section>
+    </div>
+
+    @if (isManager()) {
+      <div class="dash-grid dash-grid--even">
+        <!-- Recent applications -->
+        <section class="panel">
+          <div class="panel__head">
+            <h2>Recent applications</h2>
+            <a routerLink="/admin/applications" class="link-arrow">View all <app-icon name="arrow" [size]="16" /></a>
+          </div>
+          @if (d.recentApplications.length) {
+            <ul class="list">
+              @for (a of d.recentApplications; track a.id) {
+                <li>
+                  <a [routerLink]="['/admin/applications', a.id]">
+                    <strong>{{ a.candidate.fullName }}</strong>
+                    <span>{{ a.job ? a.job.title : 'General registration' }} · {{ a.candidate.preferredCategory }}</span>
+                  </a>
+                  <div class="list__end">
+                    <span class="badge badge--{{ a.status }}">{{ a.status | label }}</span>
+                    <time>{{ a.createdAt | timeAgo }}</time>
+                  </div>
+                </li>
+              }
+            </ul>
+          } @else {
+            <div class="admin-empty"><app-icon name="users" [size]="28" /><p>No applications yet.</p></div>
+          }
+        </section>
+
+        <!-- Recent enquiries -->
+        <section class="panel">
+          <div class="panel__head">
+            <h2>Recent employer enquiries</h2>
+            <a routerLink="/admin/employer-enquiries" class="link-arrow">View all <app-icon name="arrow" [size]="16" /></a>
+          </div>
+          @if (d.recentEnquiries.length) {
+            <ul class="list">
+              @for (e of d.recentEnquiries; track e.id) {
+                <li>
+                  <a routerLink="/admin/employer-enquiries" [queryParams]="{ open: e.id }">
+                    <strong>{{ e.employer.companyName }}</strong>
+                    <span>{{ e.employeesRequired }} workers · {{ e.employer.country }} · {{ e.employer.industry }}</span>
+                  </a>
+                  <div class="list__end">
+                    <span class="badge badge--{{ e.status }}">{{ e.status | label }}</span>
+                    <time>{{ e.createdAt | timeAgo }}</time>
+                  </div>
+                </li>
+              }
+            </ul>
+          } @else {
+            <div class="admin-empty"><app-icon name="building" [size]="28" /><p>No employer enquiries yet.</p></div>
+          }
+        </section>
+      </div>
+    }
+  } @else if (!error()) {
+    <div class="tiles">
+      @for (i of [1, 2, 3, 4, 5, 6]; track i) {
+        <div class="skeleton" style="height: 112px"></div>
+      }
+    </div>
+  }
+</div>

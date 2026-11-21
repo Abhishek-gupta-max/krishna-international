@@ -1,0 +1,300 @@
+@let s = site.settings();
+
+<!-- ============ Hero ============ -->
+<section class="hero" aria-labelledby="hero-title">
+  <div class="hero__content">
+    <div class="hero__text">
+      <p class="eyebrow">Manpower Recruitment · Gorakhpur, India</p>
+      <h1 id="hero-title">{{ s.hero_title }}</h1>
+      <p class="hero__lead">{{ s.hero_subtitle }}</p>
+      <div class="btn-row hero__actions">
+        <a routerLink="/jobs" class="btn btn--gold btn--lg">Explore Opportunities</a>
+        <a routerLink="/employers" class="btn btn--outline-light btn--lg">Hire Manpower</a>
+        <a routerLink="/contact" class="hero__link">Contact Us <app-icon name="arrow" [size]="16" /></a>
+      </div>
+      <dl class="hero__facts">
+        <div>
+          <dt>Registration</dt>
+          <dd>{{ s.registration_number }}</dd>
+        </div>
+        <div>
+          <dt>Office</dt>
+          <dd>Kudaghat, Gorakhpur</dd>
+        </div>
+        <div>
+          <dt>Call us</dt>
+          <dd><a [href]="site.phoneHref()">{{ s.phone_primary }}</a></dd>
+        </div>
+      </dl>
+    </div>
+  </div>
+  <div class="hero__media">
+    <img
+      src="assets/images/hero-workforce-1600.webp"
+      srcset="assets/images/hero-workforce-800.webp 800w, assets/images/hero-workforce-1600.webp 1600w"
+      sizes="(min-width: 992px) 50vw, 100vw"
+      alt="Construction workers in safety gear lined up on a large building site"
+      width="1600"
+      height="1067"
+      fetchpriority="high"
+    />
+  </div>
+</section>
+
+<!-- ============ About ============ -->
+<section class="section" aria-labelledby="about-title">
+  <div class="container split">
+    <div class="about-media" appReveal>
+      <div class="media-frame media-frame--4x3">
+        <img src="assets/images/about-interview-800.webp" srcset="assets/images/about-interview-800.webp 800w, assets/images/about-interview-1600.webp 1600w" sizes="(min-width: 992px) 560px, 100vw" alt="Recruiter interviewing a candidate across a desk" loading="lazy" width="800" height="533" />
+      </div>
+      <div class="about-badge">
+        <app-icon name="shield" [size]="22" />
+        <div>
+          <strong>Registered establishment</strong>
+          <span>Uttar Pradesh · Reg. No. {{ s.registration_number }}</span>
+        </div>
+      </div>
+    </div>
+    <div appReveal>
+      <p class="eyebrow">About the company</p>
+      <h2 id="about-title">A dependable link between employers and workers</h2>
+      <p class="lead">{{ s.about_summary }}</p>
+      @if (objectives().length) {
+        <ul class="check-list" style="margin: var(--sp-5) 0 var(--sp-6)">
+          @for (o of objectives(); track $index) {
+            <li>{{ o }}</li>
+          }
+        </ul>
+      }
+      <a routerLink="/about" class="btn btn--outline">More about us</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ Services ============ -->
+<section class="section section--alt" aria-labelledby="services-title">
+  <div class="container">
+    <div class="section-head section-head--split">
+      <div>
+        <p class="eyebrow">What we do</p>
+        <h2 id="services-title">Our recruitment services</h2>
+        <p>Sourcing, screening and coordination for employers who need reliable people — across trades and industries.</p>
+      </div>
+      <a routerLink="/services" class="link-arrow">All services <app-icon name="arrow" /></a>
+    </div>
+    <div class="grid grid--4">
+      @for (svc of services; track svc.slug) {
+        <a class="service card card--hover" [routerLink]="'/services'" [fragment]="svc.slug" appReveal>
+          <div class="media-frame media-frame--3x2 service__img">
+            <img [src]="'assets/images/' + svc.image + '-800.webp'" alt="" loading="lazy" width="800" height="533" />
+          </div>
+          <div class="service__body">
+            <h3>{{ svc.title }}</h3>
+            <p>{{ svc.summary }}</p>
+            <span class="link-arrow">Learn more <app-icon name="arrow" /></span>
+          </div>
+        </a>
+      }
+    </div>
+  </div>
+</section>
+
+<!-- ============ Sectors ============ -->
+<section class="section" aria-labelledby="sectors-title">
+  <div class="container split split--top">
+    <div appReveal>
+      <p class="eyebrow">Industry sectors</p>
+      <h2 id="sectors-title">Workers for the industries that build and run economies</h2>
+      <p class="lead">Each sector has its own skills, certifications and working conditions. We screen candidates against the realities of the job, not just the job title.</p>
+      <div class="media-frame media-frame--16x9 sectors__img">
+        <img src="assets/images/sector-logistics-800.webp" alt="Large warehouse with stocked shelving" loading="lazy" width="800" height="533" />
+      </div>
+    </div>
+    <ol class="sectors" appReveal>
+      @for (sec of sectors; track sec.name; let i = $index) {
+        <li>
+          <span class="sectors__num">{{ pad(i + 1) }}</span>
+          <div>
+            <h3>{{ sec.name }}</h3>
+            <p>{{ sec.note }}</p>
+          </div>
+        </li>
+      }
+    </ol>
+  </div>
+</section>
+
+<!-- ============ Process ============ -->
+<section class="section section--navy" aria-labelledby="process-title">
+  <div class="container">
+    <div class="section-head">
+      <p class="eyebrow">How it works</p>
+      <h2 id="process-title">Our recruitment process</h2>
+      <p style="color: rgba(255, 255, 255, 0.72)">A clear sequence of steps, so employers and candidates always know what happens next.</p>
+    </div>
+    <ol class="process">
+      @for (step of steps; track step.title; let i = $index) {
+        <li appReveal>
+          <span class="process__num">{{ pad(i + 1) }}</span>
+          <h3>{{ step.title }}</h3>
+          <p>{{ step.text }}</p>
+        </li>
+      }
+    </ol>
+  </div>
+</section>
+
+<!-- ============ Why choose us ============ -->
+<section class="section" aria-labelledby="why-title">
+  <div class="container split split--top split--wide-text">
+    <div class="why__intro" appReveal>
+      <p class="eyebrow">Why choose us</p>
+      <h2 id="why-title">Recruitment handled with care and accountability</h2>
+      <p class="lead">We aim to earn trust the straightforward way — by doing what we say and keeping employers and candidates informed.</p>
+      <div class="btn-row" style="margin-top: var(--sp-6)">
+        <a routerLink="/employers" class="btn">Share a requirement</a>
+        <a routerLink="/candidates" class="btn btn--outline">Register as candidate</a>
+      </div>
+    </div>
+    <div class="why">
+      @for (r of reasons; track r.title) {
+        <div class="why__item" appReveal>
+          <h3>{{ r.title }}</h3>
+          <p>{{ r.text }}</p>
+        </div>
+      }
+    </div>
+  </div>
+</section>
+
+<!-- ============ Latest jobs ============ -->
+<section class="section section--alt" aria-labelledby="jobs-title">
+  <div class="container">
+    <div class="section-head section-head--split">
+      <div>
+        <p class="eyebrow">Current vacancies</p>
+        <h2 id="jobs-title">Latest job opportunities</h2>
+        <p>Vacancies are published here once the employer has confirmed the requirement.</p>
+      </div>
+      @if (jobs().length) {
+        <a routerLink="/jobs" class="link-arrow">View all jobs <app-icon name="arrow" /></a>
+      }
+    </div>
+
+    @if (jobsLoading()) {
+      <div class="grid grid--3">
+        @for (i of [1, 2, 3]; track i) {
+          <div class="skeleton" style="height: 250px"></div>
+        }
+      </div>
+    } @else if (jobs().length) {
+      <div class="grid grid--3">
+        @for (job of jobs(); track job.id) {
+          <app-job-card [job]="job" />
+        }
+      </div>
+    } @else {
+      <div class="empty-state">
+        <app-icon name="briefcase" />
+        <h3>{{ jobsError() ? 'Vacancies could not be loaded' : 'No open vacancies right now' }}</h3>
+        <p>
+          {{ jobsError() ? 'Please try again shortly, or call us to ask about current openings.' : 'New vacancies are added as employers confirm requirements. Register your profile and we will contact you when a suitable job is available.' }}
+        </p>
+        <div class="btn-row" style="justify-content: center">
+          <a routerLink="/candidates" class="btn">Register your profile</a>
+          <a [href]="site.whatsappLink('job')" target="_blank" rel="noopener noreferrer" class="btn btn--outline">Ask on WhatsApp</a>
+        </div>
+      </div>
+    }
+  </div>
+</section>
+
+<!-- ============ Employer + Candidate CTAs ============ -->
+<section class="section" aria-label="Get started">
+  <div class="container cta-pair">
+    <article class="cta cta--navy" appReveal>
+      <p class="eyebrow">For employers</p>
+      <h2>Need workers for your project?</h2>
+      <p>Tell us the positions, numbers, experience and terms. We will come back with a sourcing plan and timeline.</p>
+      <ul class="check-list">
+        <li>Skilled, semi-skilled and unskilled roles</li>
+        <li>Screened profiles and arranged interviews</li>
+        <li>One point of contact from start to joining</li>
+      </ul>
+      <a routerLink="/employers" class="btn btn--gold">Submit employer enquiry</a>
+    </article>
+    <article class="cta" appReveal>
+      <p class="eyebrow">For candidates</p>
+      <h2>Looking for work abroad?</h2>
+      <p>Register once with your details and CV. We will contact you when a vacancy matches your trade and experience.</p>
+      <ul class="check-list">
+        <li>Simple online registration with CV upload</li>
+        <li>Clear information about the job and employer</li>
+        <li>Guidance through interviews and paperwork</li>
+      </ul>
+      <a routerLink="/candidates" class="btn">Register as a candidate</a>
+    </article>
+  </div>
+</section>
+
+<!-- ============ Testimonials (shown only when real testimonials are added in admin) ============ -->
+@if (testimonials().length) {
+  <section class="section section--alt" aria-labelledby="testimonials-title">
+    <div class="container">
+      <div class="section-head section-head--center">
+        <p class="eyebrow">Testimonials</p>
+        <h2 id="testimonials-title">What people say about working with us</h2>
+      </div>
+      <div class="grid grid--3">
+        @for (t of testimonials(); track $index) {
+          <figure class="quote card" appReveal>
+            <blockquote>“{{ t.quote }}”</blockquote>
+            <figcaption>
+              <strong>{{ t.name }}</strong>
+              @if (t.role) {
+                <span>{{ t.role }}</span>
+              }
+            </figcaption>
+          </figure>
+        }
+      </div>
+    </div>
+  </section>
+}
+
+<!-- ============ Contact strip ============ -->
+<section class="section section--tight section--bordered" aria-labelledby="contact-strip-title">
+  <div class="container contact-strip">
+    <div>
+      <p class="eyebrow">Get in touch</p>
+      <h2 id="contact-strip-title">Speak to our team</h2>
+    </div>
+    <ul class="contact-strip__list">
+      <li>
+        <app-icon name="phone" />
+        <div>
+          <span>Call</span>
+          <a [href]="site.phoneHref()">{{ s.phone_primary }}</a>
+          @if (s.phone_alternate) {
+            <a [href]="site.altPhoneHref()">{{ s.phone_alternate }}</a>
+          }
+        </div>
+      </li>
+      <li>
+        <app-icon name="mail" />
+        <div>
+          <span>Email</span>
+          <a [href]="'mailto:' + s.email">{{ s.email }}</a>
+        </div>
+      </li>
+      <li>
+        <app-icon name="pin" />
+        <div>
+          <span>Visit</span>
+          <a routerLink="/contact">Kudaghat, Gorakhpur, UP 273008</a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</section>

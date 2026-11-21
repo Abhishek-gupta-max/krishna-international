@@ -1,0 +1,61 @@
+<div class="shell" [class.is-open]="sidebarOpen()">
+  <aside class="sidebar" id="admin-sidebar" aria-label="Admin navigation">
+    <div class="sidebar__brand">
+      <a routerLink="/admin/dashboard" aria-label="Admin dashboard"><app-logo variant="light" [compact]="true" /></a>
+    </div>
+    <nav class="sidebar__nav">
+      @for (section of sections(); track section.title) {
+        <p class="sidebar__section">{{ section.title }}</p>
+        <ul>
+          @for (item of section.items; track item.path) {
+            <li>
+              <a [routerLink]="item.path" routerLinkActive="is-active" ariaCurrentWhenActive="page">
+                <app-icon [name]="item.icon" [size]="18" />
+                {{ item.label }}
+              </a>
+            </li>
+          }
+        </ul>
+      }
+    </nav>
+    <div class="sidebar__foot">
+      <a href="/" target="_blank" rel="noopener" class="sidebar__site"><app-icon name="external" [size]="16" /> View website</a>
+    </div>
+  </aside>
+
+  @if (sidebarOpen()) {
+    <div class="shell__backdrop" (click)="sidebarOpen.set(false)" aria-hidden="true"></div>
+  }
+
+  <div class="shell__main">
+    <header class="topbar">
+      <button
+        type="button"
+        class="topbar__toggle"
+        (click)="sidebarOpen.set(!sidebarOpen())"
+        [attr.aria-expanded]="sidebarOpen()"
+        aria-controls="admin-sidebar"
+        aria-label="Toggle navigation"
+      >
+        <app-icon name="menu" [size]="22" />
+      </button>
+      <div class="topbar__spacer"></div>
+      @if (auth.admin(); as a) {
+        <div class="topbar__user">
+          <span class="topbar__avatar" aria-hidden="true">{{ a.name.charAt(0) }}</span>
+          <span class="topbar__meta">
+            <strong>{{ a.name }}</strong>
+            <span>{{ a.role | label }}</span>
+          </span>
+        </div>
+      }
+      <button type="button" class="btn btn--outline btn--sm" (click)="logout()">
+        <app-icon name="logout" [size]="16" /> <span class="hide-xs">Sign out</span>
+      </button>
+    </header>
+
+    <main class="content" id="admin-main">
+      <router-outlet />
+    </main>
+  </div>
+</div>

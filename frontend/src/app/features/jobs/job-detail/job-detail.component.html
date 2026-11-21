@@ -1,0 +1,96 @@
+@if (loading()) {
+  <div class="container" style="padding-block: var(--sp-8)">
+    <div class="skeleton" style="height: 40px; width: 60%; margin-bottom: 16px"></div>
+    <div class="skeleton" style="height: 18px; width: 40%; margin-bottom: 40px"></div>
+    <div class="skeleton" style="height: 320px"></div>
+  </div>
+} @else if (notFound()) {
+  <section class="section">
+    <div class="container container--narrow">
+      <div class="empty-state">
+        <app-icon name="briefcase" />
+        <h1 style="font-size: var(--fs-xl)">This vacancy is no longer available</h1>
+        <p>The position may have been filled or closed. Browse current openings or register your profile for future vacancies.</p>
+        <div class="btn-row" style="justify-content: center">
+          <a routerLink="/jobs" class="btn">View current jobs</a>
+          <a routerLink="/candidates" class="btn btn--outline">Register your profile</a>
+        </div>
+      </div>
+    </div>
+  </section>
+} @else if (job()) {
+  @let j = job()!;
+  <app-page-header [title]="j.title" crumb="Job details" [parent]="{ path: '/jobs', label: 'Jobs' }">
+    <ul class="hdr-tags">
+      <li><app-icon name="globe" [size]="16" />{{ j.city ? j.city + ', ' : '' }}{{ j.country }}</li>
+      <li><app-icon name="building" [size]="16" />{{ j.industry }}</li>
+      <li><app-icon name="briefcase" [size]="16" />{{ j.employmentType | label }}</li>
+    </ul>
+  </app-page-header>
+
+  <section class="section">
+    <div class="container layout">
+      <article class="layout__main">
+        <section class="block" aria-labelledby="desc-title">
+          <h2 id="desc-title">Job description</h2>
+          <div class="prose-text">{{ j.description }}</div>
+        </section>
+
+        <section class="block" aria-labelledby="req-title">
+          <h2 id="req-title">Requirements</h2>
+          <div class="prose-text">{{ j.requirements }}</div>
+        </section>
+
+        @if (j.benefits) {
+          <section class="block" aria-labelledby="ben-title">
+            <h2 id="ben-title">Benefits &amp; terms</h2>
+            <div class="prose-text">{{ j.benefits }}</div>
+          </section>
+        }
+
+        <section class="block apply" id="apply" aria-labelledby="apply-title">
+          <h2 id="apply-title">Apply for this job</h2>
+          <p class="lead">Complete the form below. Our team reviews every application and will call shortlisted candidates.</p>
+          <div class="form-card">
+            <app-candidate-form [jobId]="j.id" [jobTitle]="j.title" [jobCountry]="j.country" />
+          </div>
+        </section>
+      </article>
+
+      <aside class="layout__side" aria-label="Job summary">
+        <div class="card summary">
+          <h2 class="summary__title">Job summary</h2>
+          <dl class="detail-list">
+            <div><dt>Country</dt><dd>{{ j.country }}</dd></div>
+            @if (j.city) {
+              <div><dt>City</dt><dd>{{ j.city }}</dd></div>
+            }
+            <div><dt>Industry</dt><dd>{{ j.industry }}</dd></div>
+            <div><dt>Experience</dt><dd>{{ j.experience }}</dd></div>
+            <div><dt>Job type</dt><dd>{{ j.employmentType | label }}</dd></div>
+            @if (j.salary) {
+              <div><dt>Salary</dt><dd>{{ j.salary }}</dd></div>
+            }
+            @if (j.vacancies) {
+              <div><dt>Vacancies</dt><dd>{{ j.vacancies }}</dd></div>
+            }
+            @if (j.applicationDeadline) {
+              <div><dt>Apply by</dt><dd>{{ j.applicationDeadline | date: 'd MMM y' }}</dd></div>
+            }
+            @if (j.publishedAt) {
+              <div><dt>Posted</dt><dd>{{ j.publishedAt | date: 'd MMM y' }}</dd></div>
+            }
+          </dl>
+          <button type="button" class="btn btn--block btn--lg" (click)="scrollToApply()">Apply now</button>
+          <a class="btn btn--whatsapp btn--block" [href]="site.whatsappLink('job', j.title + ' (' + j.country + ')')" target="_blank" rel="noopener noreferrer">
+            <app-icon name="whatsapp" /> Ask on WhatsApp
+          </a>
+        </div>
+        <p class="side-note">
+          <app-icon name="shield" [size]="16" />
+          Verify any offer made in our name by calling <a [href]="site.phoneHref()">{{ site.settings().phone_primary }}</a>.
+        </p>
+      </aside>
+    </div>
+  </section>
+}
