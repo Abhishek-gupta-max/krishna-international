@@ -13,7 +13,7 @@ export const NAV_LINKS = [
   { path: '/jobs', label: 'Jobs' },
   { path: '/employers', label: 'Employers' },
   { path: '/candidates', label: 'Candidates' },
-  { path: '/gallery', label: 'Gallery' },
+  // { path: '/gallery', label: 'Gallery' }, // hidden on request — uncomment to show again
   { path: '/contact', label: 'Contact' },
 ];
 
