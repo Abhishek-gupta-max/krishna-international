@@ -26,10 +26,10 @@ module.exports = [
   { key: 'map_query', value: 'Singhariya, Kudaghat, Gorakhpur, Uttar Pradesh 273008', group: 'company' },
 
   // ---- Social (empty until the company provides official profiles) ----
-  { key: 'facebook_url', value: '', group: 'social' },
-  { key: 'instagram_url', value: '', group: 'social' },
+  { key: 'facebook_url', value: 'https://www.facebook.com/share/19qDeYVVtK/', group: 'social' },
+  { key: 'instagram_url', value: 'https://www.instagram.com/krishnainternational_gkp/', group: 'social' },
   { key: 'linkedin_url', value: '', group: 'social' },
-  { key: 'youtube_url', value: '', group: 'social' },
+  { key: 'youtube_url', value: 'https://www.youtube.com/@krishnainternationalgkp', group: 'social' },
 
   // ---- Editable content ----
   { key: 'hero_title', value: 'Connecting Global Employers with Skilled Talent', group: 'content' },

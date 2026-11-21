@@ -25,10 +25,10 @@ const FALLBACK: SiteSettings = {
   registered_owner: 'Dimpal Pandey',
   office_hours: '',
   map_query: 'Singhariya, Kudaghat, Gorakhpur, Uttar Pradesh 273008',
-  facebook_url: '',
-  instagram_url: '',
+  facebook_url: 'https://www.facebook.com/share/19qDeYVVtK/',
+  instagram_url: 'https://www.instagram.com/krishnainternational_gkp/',
   linkedin_url: '',
-  youtube_url: '',
+  youtube_url: 'https://www.youtube.com/@krishnainternationalgkp',
   hero_title: 'Connecting Global Employers with Skilled Talent',
   hero_subtitle:
     'Krishna International Overseas Services sources, screens and prepares skilled and semi-skilled workers from India for employers abroad — with clear communication at every step for both the employer and the candidate.',
