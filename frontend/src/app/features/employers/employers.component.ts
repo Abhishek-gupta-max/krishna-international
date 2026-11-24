@@ -70,14 +70,16 @@ import { PageHeaderComponent } from '../../shared/components/page-header/page-he
     .side-card { padding: var(--sp-5); }
     .side-card h3 { font-size: var(--fs-base); margin-bottom: var(--sp-4); }
     .side-card .check-list { font-size: var(--fs-sm); }
-    .side-card--navy { background: var(--navy-900); border-color: var(--navy-900); color: rgba(255,255,255,.78); display: grid; gap: var(--sp-3); }
+    .side-card--navy { background: var(--gradient-navy); border-color: var(--navy-900); color: rgba(255,255,255,.78); display: grid; gap: var(--sp-3); }
     .side-card--navy h3 { color: #fff; margin-bottom: 0; }
     .side-card--navy p { margin: 0 0 var(--sp-2); font-size: var(--fs-sm); }
     .steps { display: grid; gap: var(--sp-3); margin: 0; padding: 0; list-style: none; font-size: var(--fs-sm); }
-    .steps li { display: flex; align-items: center; gap: var(--sp-3); }
+    .steps li { display: flex; align-items: center; gap: var(--sp-3); padding: 4px 6px; margin: -4px -6px; border-radius: var(--radius-sm); transition: background-color var(--dur) var(--ease); }
+    .steps li:hover { background: var(--gold-100); }
+    .steps li:hover span { background: var(--gold-500); color: var(--navy-950); }
     .steps span {
       display: inline-flex; align-items: center; justify-content: center; flex: none; width: 26px; height: 26px;
-      border: 1px solid var(--gold-500); border-radius: 50%; font-size: var(--fs-xs); font-weight: 600; color: var(--gold-600);
+      border: 1px solid var(--gold-500); border-radius: 50%; font-size: var(--fs-xs); font-weight: 600; color: var(--gold-600); transition: background-color var(--dur) var(--ease), color var(--dur) var(--ease);
     }
   `,
 })

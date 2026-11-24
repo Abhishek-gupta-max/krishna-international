@@ -108,7 +108,9 @@ import { PageHeaderComponent } from '../../shared/components/page-header/page-he
     .info__icon {
       display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px;
       border-radius: 12px; background: var(--gold-100); color: var(--gold-600);
+      transition: background-color var(--dur) var(--ease), color var(--dur) var(--ease), transform var(--dur) var(--ease);
     }
+    .info__list li:hover .info__icon { background: var(--navy-900); color: var(--gold-300); transform: translateY(-2px); }
     .info__list h3 { margin-bottom: 4px; font-size: var(--fs-xs); letter-spacing: .1em; text-transform: uppercase; color: var(--grey-500); }
     .info__list p { margin: 0 0 var(--sp-2); font-weight: 500; overflow-wrap: anywhere; }
     .info__list a:not(.link-arrow) { color: var(--navy-900); text-decoration: none; }

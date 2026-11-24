@@ -6,18 +6,112 @@
   background: var(--navy-950);
   color: rgba(255, 255, 255, 0.84);
 
-  &__media {
+  // Crossfading background slides
+  &__slides {
     position: absolute;
     inset: 0;
     z-index: -2;
+  }
+
+  &__slide {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 1.2s var(--ease);
 
     img {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      object-position: 70% 40%;
-      animation: hero-zoom 14s var(--ease) both;
+      transform: scale(1.06);
+      transition: transform 7s linear;
     }
+
+    &.is-active {
+      opacity: 1;
+      img { transform: scale(1); } // slow Ken Burns zoom-out while visible
+    }
+  }
+
+  // Caption + arrows + dots, bottom of the hero (clear of the facts card)
+  &__controls {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: clamp(5.25rem, 4rem + 3vw, 6.5rem);
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--sp-4);
+    pointer-events: none;
+
+    > * { pointer-events: auto; }
+  }
+
+  &__caption {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--sp-3);
+    font-size: var(--fs-xs);
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.75);
+  }
+  &__caption-num { color: var(--gold-300); font-variant-numeric: tabular-nums; }
+
+  &__nav {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-3);
+    margin-left: auto;
+  }
+
+  &__arrow-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    background: rgba(6, 20, 39, 0.35);
+    backdrop-filter: blur(6px);
+    color: var(--white);
+    cursor: pointer;
+    transition: background-color var(--dur) var(--ease), border-color var(--dur) var(--ease), color var(--dur) var(--ease), transform var(--dur) var(--ease);
+
+    &:hover { background: var(--gold-500); border-color: var(--gold-500); color: var(--navy-950); transform: scale(1.06); }
+  }
+
+  &__flip { display: inline-flex; transform: rotate(180deg); }
+
+  &__dots { display: flex; align-items: center; gap: 6px; }
+
+  &__dot-btn {
+    width: 10px;
+    height: 10px;
+    padding: 0;
+    border: 0;
+    border-radius: var(--radius-pill);
+    background: rgba(255, 255, 255, 0.4);
+    cursor: pointer;
+    transition: width var(--dur-slow) var(--ease), background-color var(--dur) var(--ease);
+
+    // Larger invisible hit area for touch
+    position: relative;
+    &::before { content: ''; position: absolute; inset: -10px -4px; }
+
+    &:hover { background: rgba(255, 255, 255, 0.75); }
+    &.is-active { width: 28px; background: var(--gold-500); }
+  }
+
+  @media (max-width: 575.98px) {
+    &__caption { display: none; }
+    &__nav { margin: 0 auto; }
+    &__arrow-btn { width: 40px; height: 40px; }
   }
 
   // Overlay: solid navy on the text side, fading to reveal the photo on the right.
@@ -38,7 +132,7 @@
     display: flex;
     align-items: center;
     min-height: clamp(560px, 82vh, 720px);
-    padding-block: clamp(3.5rem, 2rem + 6vw, 7rem) clamp(6.5rem, 5rem + 4vw, 8.5rem);
+    padding-block: clamp(3.5rem, 2rem + 6vw, 7rem) clamp(9.5rem, 8rem + 3vw, 11rem);
   }
 
   &__text { max-width: 640px; }
@@ -110,10 +204,6 @@
   }
 }
 
-@keyframes hero-zoom {
-  from { transform: scale(1.08); }
-  to { transform: scale(1); }
-}
 
 // ---------- Trust facts card (overlaps the hero) ----------
 .facts-wrap {
@@ -143,6 +233,11 @@
     border-color: var(--grey-100);
     border-style: solid;
     border-width: 0;
+    transition: background-color var(--dur) var(--ease);
+
+    &:hover { background: var(--grey-25); }
+    &:hover .facts__icon { background: var(--navy-900); color: var(--gold-300); transform: translateY(-2px); }
+    &:hover .facts__icon--wa { background: #1f8f4e; color: #fff; }
 
     // Dividers between cells
     &:nth-child(odd) { border-right-width: 1px; }
@@ -168,6 +263,7 @@
     border-radius: 12px;
     background: var(--navy-50);
     color: var(--navy-800);
+    transition: background-color var(--dur) var(--ease), color var(--dur) var(--ease), transform var(--dur) var(--ease);
 
     &--wa { background: #e8f6ee; color: #1f8f4e; }
   }
@@ -213,7 +309,9 @@
   border: 1px solid var(--grey-100);
   border-radius: var(--radius);
   box-shadow: var(--shadow-lg);
+  transition: transform var(--dur) var(--ease);
 
+  &:hover { transform: translateY(-3px); }
   app-icon { color: var(--gold-600); }
   strong { display: block; font-size: var(--fs-sm); color: var(--navy-900); }
   span { font-size: var(--fs-xs); color: var(--grey-500); }
@@ -284,9 +382,9 @@
     border: 1px solid var(--grey-100);
     border-radius: var(--radius);
     background: var(--white);
-    transition: border-color var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
+    transition: border-color var(--dur) var(--ease), box-shadow var(--dur) var(--ease), transform var(--dur) var(--ease);
 
-    &:hover { border-color: var(--gold-300); box-shadow: var(--shadow); }
+    &:hover { border-color: var(--gold-300); box-shadow: var(--shadow); transform: translateY(-2px); }
   }
 
   &__num {
@@ -500,6 +598,9 @@
   border-radius: var(--radius-xl);
   background: linear-gradient(160deg, var(--white) 0%, var(--grey-50) 100%);
   box-shadow: var(--shadow-sm);
+  transition: transform var(--dur-slow) var(--ease), box-shadow var(--dur-slow) var(--ease), border-color var(--dur) var(--ease);
+
+  &:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); border-color: var(--gold-300); }
 
   h2 { font-size: var(--fs-xl); }
   p { color: var(--color-text-muted); }
@@ -617,6 +718,10 @@
       border: 1px solid var(--hairline-light);
       border-radius: var(--radius);
       background: rgba(255, 255, 255, 0.04);
+      transition: background-color var(--dur) var(--ease), border-color var(--dur) var(--ease), transform var(--dur) var(--ease);
+
+      &:hover { background: rgba(255, 255, 255, 0.08); border-color: rgba(216, 196, 160, 0.4); transform: translateY(-2px); }
+      &:hover .contact-panel__icon { background: var(--gold-500); color: var(--navy-950); }
     }
     div { display: flex; flex-direction: column; min-width: 0; }
     span:not(.contact-panel__icon) { font-size: var(--fs-xs); letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255, 255, 255, 0.55); }
@@ -635,5 +740,6 @@
     border-radius: 10px;
     background: rgba(176, 141, 87, 0.16);
     color: var(--gold-300);
+    transition: background-color var(--dur) var(--ease), color var(--dur) var(--ease);
   }
 }

@@ -43,13 +43,13 @@ import { RevealDirective } from '../../shared/directives/reveal.directive';
       <section class="section section--navy">
         <div class="container vm">
           @if (s.vision) {
-            <div appReveal>
+            <div class="vm__item" appReveal>
               <p class="eyebrow">Our vision</p>
               <p class="vm__text">{{ s.vision }}</p>
             </div>
           }
           @if (s.mission) {
-            <div appReveal>
+            <div class="vm__item" appReveal>
               <p class="eyebrow">Our mission</p>
               <p class="vm__text">{{ s.mission }}</p>
             </div>
@@ -143,9 +143,22 @@ import { RevealDirective } from '../../shared/directives/reveal.directive';
   styles: `
     .vm { display: grid; gap: var(--sp-7); }
     @media (min-width: 768px) { .vm { grid-template-columns: 1fr 1fr; gap: var(--sp-8); } }
+    .vm__item {
+      height: 100%; padding: clamp(1.5rem, 1rem + 2vw, 2.5rem);
+      border: 1px solid var(--hairline-light); border-radius: var(--radius-lg); background: rgba(255,255,255,.04);
+      transition: transform var(--dur-slow) var(--ease), background-color var(--dur) var(--ease), border-color var(--dur) var(--ease);
+    }
+    .vm__item:hover { transform: translateY(-4px); background: rgba(255,255,255,.07); border-color: rgba(216,196,160,.4); }
     .vm__text { margin: 0; font-family: var(--font-serif); font-size: var(--fs-xl); line-height: 1.5; color: #fff; }
     .people { display: grid; gap: var(--sp-4); margin-top: var(--sp-5); }
-    .person { display: flex; align-items: center; gap: var(--sp-4); padding: var(--sp-4); border: 1px solid var(--color-border); border-radius: var(--radius); }
+    .person {
+      display: flex; align-items: center; gap: var(--sp-4); padding: var(--sp-4);
+      border: 1px solid var(--color-border); border-radius: var(--radius); background: #fff;
+      transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease), border-color var(--dur) var(--ease);
+    }
+    .person:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); border-color: var(--gold-300); }
+    .person__initials { transition: background-color var(--dur) var(--ease), color var(--dur) var(--ease); }
+    .person:hover .person__initials { background: var(--gold-500); color: var(--navy-950); }
     .person__initials {
       display: inline-flex; align-items: center; justify-content: center; flex: none;
       width: 52px; height: 52px; border-radius: 50%; background: var(--navy-900); color: #fff;

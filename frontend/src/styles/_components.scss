@@ -20,17 +20,38 @@
 
 // ---------- Cards ----------
 .card {
+  position: relative;
   background: var(--white);
   border: 1px solid var(--grey-100);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-sm);
   transition: border-color var(--dur) var(--ease), box-shadow var(--dur-slow) var(--ease), transform var(--dur-slow) var(--ease);
 
-  &--hover:hover {
-    border-color: var(--grey-200);
+  // Gold accent that draws across the top edge on hover
+  &::after {
+    content: '';
+    position: absolute;
+    top: -1px;
+    left: 16px;
+    right: 16px;
+    height: 3px;
+    border-radius: 0 0 3px 3px;
+    background: linear-gradient(90deg, var(--gold-500), var(--gold-300));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform var(--dur-slow) var(--ease);
+    pointer-events: none;
+  }
+
+  // Every card responds to hover with a gentle lift
+  // (.reveal.is-visible also sets transform, so match its specificity and win by order)
+  &:hover,
+  &.reveal.is-visible:hover {
+    border-color: rgba(176, 141, 87, 0.35);
     box-shadow: var(--shadow-lg);
     transform: translateY(-4px);
   }
+  &:hover::after { transform: scaleX(1); }
 
   &__body { padding: var(--sp-5); }
 }
@@ -191,4 +212,16 @@
   white-space: pre-line;
   color: var(--grey-800);
   line-height: 1.75;
+}
+
+// ---------- Shared hover helpers ----------
+// Photos inside frames zoom slightly when hovered
+.media-frame img { transition: transform 700ms var(--ease); }
+.media-frame:hover img { transform: scale(1.04); }
+
+// Hover only where a real pointer exists; touch devices keep static cards
+@media (hover: none) {
+  .card:hover,
+  .card.reveal.is-visible:hover { transform: none; }
+  .media-frame:hover img { transform: none; }
 }
