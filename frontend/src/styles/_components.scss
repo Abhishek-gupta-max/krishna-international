@@ -21,13 +21,15 @@
 // ---------- Cards ----------
 .card {
   background: var(--white);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius);
-  transition: border-color var(--dur) var(--ease), box-shadow var(--dur) var(--ease), transform var(--dur) var(--ease);
+  border: 1px solid var(--grey-100);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  transition: border-color var(--dur) var(--ease), box-shadow var(--dur-slow) var(--ease), transform var(--dur-slow) var(--ease);
 
   &--hover:hover {
-    border-color: var(--grey-300);
+    border-color: var(--grey-200);
     box-shadow: var(--shadow-lg);
+    transform: translateY(-4px);
   }
 
   &__body { padding: var(--sp-5); }
@@ -39,7 +41,7 @@
   align-items: center;
   gap: 6px;
   padding: 3px 10px;
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-pill);
   background: var(--navy-50);
   color: var(--navy-800);
   font-size: var(--fs-xs);
@@ -89,10 +91,10 @@
       position: absolute;
       left: 0;
       top: 0.45em;
-      width: 14px;
-      height: 8px;
-      border-left: 2px solid var(--gold-500);
-      border-bottom: 2px solid var(--gold-500);
+      width: 12px;
+      height: 7px;
+      border-left: 2px solid var(--gold-600);
+      border-bottom: 2px solid var(--gold-600);
       transform: rotate(-45deg);
     }
   }
@@ -128,7 +130,7 @@
   padding: var(--sp-8) var(--sp-5);
   text-align: center;
   border: 1px dashed var(--grey-300);
-  border-radius: var(--radius);
+  border-radius: var(--radius-lg);
   background: var(--white);
 
   svg { width: 36px; height: 36px; margin: 0 auto var(--sp-4); color: var(--grey-500); }
@@ -178,8 +180,8 @@
 // ---------- Scroll reveal (subtle) ----------
 .reveal {
   opacity: 0;
-  transform: translateY(14px);
-  transition: opacity 600ms var(--ease), transform 600ms var(--ease);
+  transform: translateY(18px);
+  transition: opacity 700ms var(--ease), transform 700ms var(--ease);
 
   &.is-visible { opacity: 1; transform: none; }
 }

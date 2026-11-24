@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import { SettingsService } from '../../core/services/settings.service';
 import { CandidateFormComponent } from '../../shared/components/candidate-form/candidate-form.component';
 import { IconComponent } from '../../shared/components/icon/icon.component';
@@ -8,7 +7,7 @@ import { PageHeaderComponent } from '../../shared/components/page-header/page-he
 @Component({
   selector: 'app-candidates',
   standalone: true,
-  imports: [RouterLink, PageHeaderComponent, CandidateFormComponent, IconComponent],
+  imports: [PageHeaderComponent, CandidateFormComponent, IconComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <app-page-header
@@ -23,7 +22,7 @@ import { PageHeaderComponent } from '../../shared/components/page-header/page-he
         <div class="layout__main">
           <h2>Register your profile</h2>
           <p class="lead" style="margin-bottom: var(--sp-6)">
-            Looking at a specific vacancy? <a routerLink="/jobs">Browse current jobs</a> and apply from the job page instead.
+            Share your details and CV once — we will contact you when a vacancy matches your trade and experience.
           </p>
           <div class="form-card">
             <app-candidate-form />

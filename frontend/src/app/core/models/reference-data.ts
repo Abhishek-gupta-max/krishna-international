@@ -183,3 +183,25 @@ export const WHY_CHOOSE_US = [
   { title: 'Strong local network', text: 'Rooted in Gorakhpur, with access to skilled workers across Eastern Uttar Pradesh.' },
   { title: 'Registered business', text: 'A registered establishment in Uttar Pradesh with a physical office you can visit.' },
 ];
+
+/** Presentation only: line icon shown with each service card (keyed by service slug). */
+export const SERVICE_ICONS: Record<string, string> = {
+  'overseas-manpower-recruitment': 'globe',
+  'skilled-and-unskilled-manpower': 'users',
+  'industrial-workforce': 'factory',
+  'construction-manpower': 'hardhat',
+  'hospitality-recruitment': 'utensils',
+  'healthcare-recruitment': 'heart',
+  'technical-and-engineering-recruitment': 'wrench',
+  'employer-recruitment-support': 'handshake',
+};
+
+/** Presentation only: icon for each "Why choose us" point (keyed by title). */
+export const WHY_ICONS: Record<string, string> = {
+  'Requirement-first approach': 'target',
+  'Screened profiles': 'file-check',
+  'Honest communication': 'message',
+  'Single point of contact': 'user-check',
+  'Strong local network': 'network',
+  'Registered business': 'shield',
+};

@@ -21,7 +21,7 @@ import { PageHeaderComponent } from '../../shared/components/page-header/page-he
           <h2>Our office</h2>
           <ul class="info__list">
             <li>
-              <app-icon name="pin" />
+              <span class="info__icon"><app-icon name="pin" /></span>
               <div>
                 <h3>Address</h3>
                 <p>{{ s.address }}</p>
@@ -29,7 +29,7 @@ import { PageHeaderComponent } from '../../shared/components/page-header/page-he
               </div>
             </li>
             <li>
-              <app-icon name="phone" />
+              <span class="info__icon"><app-icon name="phone" /></span>
               <div>
                 <h3>Phone</h3>
                 <p>
@@ -41,14 +41,14 @@ import { PageHeaderComponent } from '../../shared/components/page-header/page-he
               </div>
             </li>
             <li>
-              <app-icon name="mail" />
+              <span class="info__icon"><app-icon name="mail" /></span>
               <div>
                 <h3>Email</h3>
                 <p><a [href]="'mailto:' + s.email">{{ s.email }}</a></p>
               </div>
             </li>
             <li>
-              <app-icon name="users" />
+              <span class="info__icon"><app-icon name="users" /></span>
               <div>
                 <h3>Contact person</h3>
                 <p>{{ s.contact_person }}</p>
@@ -56,7 +56,7 @@ import { PageHeaderComponent } from '../../shared/components/page-header/page-he
             </li>
             @if (s.office_hours) {
               <li>
-                <app-icon name="clock" />
+                <span class="info__icon"><app-icon name="clock" /></span>
                 <div>
                   <h3>Office hours</h3>
                   <p>{{ s.office_hours }}</p>
@@ -104,10 +104,10 @@ import { PageHeaderComponent } from '../../shared/components/page-header/page-he
     @media (min-width: 992px) { .layout { grid-template-columns: 5fr 7fr; gap: var(--sp-8); align-items: start; } }
     .layout__form { min-width: 0; }
     .info__list { display: grid; gap: var(--sp-5); margin: var(--sp-5) 0 0; padding: 0; list-style: none; }
-    .info__list li { display: grid; grid-template-columns: 44px 1fr; gap: var(--sp-4); padding-bottom: var(--sp-5); border-bottom: 1px solid var(--grey-100); }
-    .info__list app-icon {
+    .info__list li { display: grid; grid-template-columns: 44px 1fr; gap: var(--sp-4); align-items: start; padding-bottom: var(--sp-5); border-bottom: 1px solid var(--grey-100); }
+    .info__icon {
       display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px;
-      border: 1px solid var(--color-border); border-radius: var(--radius); color: var(--gold-600);
+      border-radius: 12px; background: var(--gold-100); color: var(--gold-600);
     }
     .info__list h3 { margin-bottom: 4px; font-size: var(--fs-xs); letter-spacing: .1em; text-transform: uppercase; color: var(--grey-500); }
     .info__list p { margin: 0 0 var(--sp-2); font-weight: 500; overflow-wrap: anywhere; }

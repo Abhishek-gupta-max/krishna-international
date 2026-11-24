@@ -10,7 +10,6 @@ export const NAV_LINKS = [
   { path: '/', label: 'Home', exact: true },
   { path: '/about', label: 'About' },
   { path: '/services', label: 'Services' },
-  { path: '/jobs', label: 'Jobs' },
   { path: '/employers', label: 'Employers' },
   { path: '/candidates', label: 'Candidates' },
   { path: '/contact', label: 'Contact' },

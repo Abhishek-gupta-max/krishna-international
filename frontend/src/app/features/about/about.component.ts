@@ -134,7 +134,7 @@ import { RevealDirective } from '../../shared/directives/reveal.directive';
         <h2>Work with us</h2>
         <div class="btn-row">
           <a routerLink="/employers" class="btn">Hire manpower</a>
-          <a routerLink="/jobs" class="btn btn--outline">Find a job</a>
+          <a routerLink="/candidates" class="btn btn--outline">Register as candidate</a>
           <a routerLink="/contact" class="btn btn--ghost">Contact us</a>
         </div>
       </div>

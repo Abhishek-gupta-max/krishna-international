@@ -12,10 +12,11 @@
 
   &--alt { background: var(--color-bg-alt); }
   &--navy {
-    background: var(--navy-900);
+    background: var(--gradient-navy);
     color: rgba(255, 255, 255, 0.82);
     h2, h3, h4 { color: var(--white); }
   }
+  &--soft { background: linear-gradient(180deg, var(--grey-50) 0%, var(--white) 100%); }
   &--tight { padding-block: calc(var(--section-y) * 0.65); }
   &--bordered { border-top: 1px solid var(--color-border); }
 }
@@ -36,8 +37,8 @@
     > div { max-width: 640px; }
   }
 
-  h2 { margin-bottom: var(--sp-3); }
-  p { color: var(--color-text-muted); font-size: var(--fs-md); margin-bottom: 0; }
+  h2 { margin-bottom: var(--sp-4); }
+  p { color: var(--color-text-muted); font-size: var(--fs-md); line-height: 1.7; margin-bottom: 0; }
 }
 
 .eyebrow {
@@ -54,8 +55,9 @@
   &::before {
     content: '';
     width: 28px;
-    height: 1px;
-    background: currentColor;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--gold-500);
   }
 
   .section--navy & { color: var(--gold-300); }
@@ -96,7 +98,7 @@
   position: relative;
   overflow: hidden;
   background: var(--grey-100);
-  border-radius: var(--radius);
+  border-radius: var(--radius-lg);
 
   img {
     width: 100%;

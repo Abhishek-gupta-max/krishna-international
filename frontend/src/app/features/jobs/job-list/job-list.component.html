@@ -10,7 +10,7 @@
     <form class="filters" role="search" (submit)="$event.preventDefault()" aria-label="Filter jobs">
       <div class="field filters__search">
         <label class="sr-only" for="job-search">Search jobs</label>
-        <app-icon name="search" [size]="18" />
+        <span class="filters__icon"><app-icon name="search" [size]="18" /></span>
         <input id="job-search" class="input" type="search" [formControl]="search" placeholder="Search by job title or trade" autocomplete="off" />
       </div>
       <div class="field">

@@ -14,7 +14,7 @@ import { RouterLink } from '@angular/router';
         <p class="lead">The link may be out of date, or the page may have moved.</p>
         <div class="btn-row">
           <a routerLink="/" class="btn">Go to home page</a>
-          <a routerLink="/jobs" class="btn btn--outline">Browse jobs</a>
+          <a routerLink="/candidates" class="btn btn--outline">Register as candidate</a>
           <a routerLink="/contact" class="btn btn--ghost">Contact us</a>
         </div>
       </div>
