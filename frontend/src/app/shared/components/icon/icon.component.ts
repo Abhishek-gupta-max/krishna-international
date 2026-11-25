@@ -46,6 +46,11 @@ const ICONS: Record<string, string> = {
   'chevron-down': '<path d="m6 9 6 6 6-6"/>',
   filter: '<path d="M22 3H2l8 9.5V19l4 2v-8.5z"/>',
   award: '<circle cx="12" cy="8" r="6"/><path d="M15.5 13 17 22l-5-3-5 3 1.5-9"/>',
+  // Assistant controls
+  mic: '<rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v4M8 22h8"/>',
+  send: '<path d="m22 2-7 20-4-9-9-4z"/><path d="M22 2 11 13"/>',
+  volume: '<path d="M11 5 6 9H2v6h4l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M19 5a10 10 0 0 1 0 14"/>',
+  'volume-off': '<path d="M11 5 6 9H2v6h4l5 4z"/><path d="m22 9-6 6M16 9l6 6"/>',
   // Service & trust icons (same 24px / 1.75 stroke grid)
   hardhat: '<path d="M2 18h20M4 18v-3a8 8 0 0 1 16 0v3M10 7V5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2M9 18v-6M15 18v-6"/>',
   factory: '<path d="M2 21h20M3 21V10l6 4v-4l6 4V5h4v16M7 17h2M12 17h2M17 9h.01"/>',

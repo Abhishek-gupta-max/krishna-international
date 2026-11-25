@@ -1,0 +1,140 @@
+<!-- Launcher -->
+@if (!open()) {
+  <button #launcher type="button" class="launcher" (click)="show()" aria-haspopup="dialog" [attr.aria-label]="'Talk to Krishna AI — automated assistant'">
+    <app-ai-avatar [size]="38" />
+    <span class="launcher__text">Talk to Krishna AI</span>
+    @if (unread()) {
+      <span class="launcher__dot" aria-hidden="true"></span>
+    }
+  </button>
+}
+
+<!-- Assistant window -->
+@if (open()) {
+  <section class="panel" role="dialog" aria-modal="false" aria-labelledby="ai-title" aria-describedby="ai-mode">
+    <header class="panel__head">
+      <app-ai-avatar [size]="44" [state]="avatarState()" />
+      <div class="panel__title">
+        <h2 id="ai-title">Krishna International AI Consultant</h2>
+        <p id="ai-mode">
+          <span class="status" [class.status--live]="speech.listening() || speech.speaking()"></span>
+          @if (speech.listening()) {
+            {{ lang() === 'hi' ? 'सुन रहा हूं…' : 'Listening…' }}
+          } @else if (speech.speaking()) {
+            {{ lang() === 'hi' ? 'बोल रहा हूं…' : 'Speaking…' }}
+          } @else {
+            {{ modeLabel }}
+          }
+        </p>
+      </div>
+      <div class="panel__tools">
+        <button type="button" class="tool" (click)="minimize()" aria-label="Minimize assistant" title="Minimize">
+          <app-icon name="chevron-down" [size]="18" />
+        </button>
+        <button type="button" class="tool" (click)="close()" aria-label="Close assistant and end conversation" title="Close">
+          <app-icon name="close" [size]="18" />
+        </button>
+      </div>
+    </header>
+
+    <div class="panel__bar">
+      <div class="lang" role="group" aria-label="Language">
+        <button type="button" [class.is-on]="lang() === 'en'" [attr.aria-pressed]="lang() === 'en'" (click)="setLang('en')">EN</button>
+        <button type="button" [class.is-on]="lang() === 'hi'" [attr.aria-pressed]="lang() === 'hi'" (click)="setLang('hi')" lang="hi">हिंदी</button>
+      </div>
+      <div class="panel__bar-actions">
+        @if (speech.speaking()) {
+          <button type="button" class="chip-btn" (click)="stopSpeaking()">
+            <app-icon name="close" [size]="14" /> {{ lang() === 'hi' ? 'रोकें' : 'Stop voice' }}
+          </button>
+        }
+        @if (speech.canSpeak) {
+          <button type="button" class="chip-btn" (click)="toggleMute()" [attr.aria-pressed]="muted()" [title]="muted() ? 'Unmute voice replies' : 'Mute voice replies'">
+            <app-icon [name]="muted() ? 'volume-off' : 'volume'" [size]="14" />
+            {{ muted() ? (lang() === 'hi' ? 'आवाज़ बंद' : 'Muted') : (lang() === 'hi' ? 'आवाज़ चालू' : 'Voice on') }}
+          </button>
+        }
+        <button type="button" class="chip-btn" (click)="clear()" [disabled]="!messages().length">
+          <app-icon name="trash" [size]="14" /> {{ lang() === 'hi' ? 'साफ़ करें' : 'Clear' }}
+        </button>
+      </div>
+    </div>
+
+    <div class="panel__log" #log aria-live="polite" aria-relevant="additions">
+      <!-- Welcome -->
+      <div class="welcome">
+        <app-ai-avatar [size]="72" [state]="messages().length ? 'idle' : avatarState()" />
+        <p [attr.lang]="lang()">{{ welcome() }}</p>
+      </div>
+
+      @if (!messages().length) {
+        <div class="suggest" role="list" [attr.aria-label]="lang() === 'hi' ? 'सुझाए गए प्रश्न' : 'Suggested questions'">
+          @for (s of suggestions(); track s) {
+            <button type="button" role="listitem" (click)="send(s)" [attr.lang]="lang()">{{ s }}</button>
+          }
+        </div>
+      }
+
+      @for (m of messages(); track m.id) {
+        <div class="msg" [class.msg--user]="m.role === 'user'" [attr.lang]="m.lang">
+          <span class="sr-only">{{ m.role === 'user' ? 'You said:' : 'Assistant:' }}</span>
+          <p>{{ m.text }}</p>
+          @if (m.actions?.length) {
+            <div class="msg__actions">
+              @for (a of m.actions; track a.label) {
+                @if (a.route) {
+                  <a [href]="a.route + (a.fragment ? '#' + a.fragment : '')" (click)="runAction(a, $event)">{{ a.label }} <app-icon name="arrow" [size]="14" /></a>
+                } @else {
+                  <a [href]="a.href" target="_blank" rel="noopener noreferrer">{{ a.label }} <app-icon name="external" [size]="13" /></a>
+                }
+              }
+            </div>
+          }
+        </div>
+      }
+
+      @if (busy()) {
+        <div class="msg msg--typing" aria-label="Assistant is typing"><span></span><span></span><span></span></div>
+      }
+    </div>
+
+    @if (notice()) {
+      <p class="panel__notice" role="alert">{{ notice() }}</p>
+    }
+    @if (speech.listening() && speech.interim()) {
+      <p class="panel__interim" aria-live="polite">“{{ speech.interim() }}”</p>
+    }
+
+    <form class="panel__input" (submit)="$event.preventDefault(); send()">
+      <button
+        type="button"
+        class="mic"
+        [class.is-on]="speech.listening()"
+        (click)="toggleMic()"
+        [attr.aria-pressed]="speech.listening()"
+        [attr.aria-label]="speech.listening() ? 'Stop listening' : speech.canListen ? 'Speak your question' : 'Voice input not supported in this browser'"
+        [title]="speech.canListen ? (lang() === 'hi' ? 'हिंदी में बोलें' : 'Speak in English') : 'Voice input not supported in this browser'"
+      >
+        <app-icon name="mic" [size]="20" />
+      </button>
+      <label class="sr-only" for="ai-input">Type your question</label>
+      <input
+        #input
+        id="ai-input"
+        type="text"
+        [(ngModel)]="draft"
+        name="draft"
+        autocomplete="off"
+        maxlength="500"
+        [placeholder]="speech.listening() ? (lang() === 'hi' ? 'सुन रहा हूं…' : 'Listening…') : lang() === 'hi' ? 'अपना प्रश्न लिखें…' : 'Type your question…'"
+        [attr.lang]="lang()"
+      />
+      <button type="submit" class="send" [disabled]="!draft.trim() || busy()" aria-label="Send">
+        <app-icon name="send" [size]="18" />
+      </button>
+    </form>
+    <p class="panel__foot">
+      {{ lang() === 'hi' ? 'उत्तर इस वेबसाइट की जानकारी पर आधारित हैं। निजी जानकारी साझा न करें।' : 'Answers are based on this website. Please don’t share personal details here.' }}
+    </p>
+  </section>
+}

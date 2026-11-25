@@ -7,4 +7,6 @@ export const environment = {
   production: true,
   apiUrl: '/api',
   mediaUrl: '',
+  /** Optional backend route for a real AI model, e.g. '/api/assistant'. Empty = free demo mode. */
+  assistantEndpoint: '',
 };

@@ -42,8 +42,9 @@
     z-index: 1;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: var(--sp-4);
+    // Left-aligned so the floating AI/WhatsApp buttons in the bottom-right never cover the arrows
+    justify-content: flex-start;
+    gap: var(--sp-4) var(--sp-6);
     pointer-events: none;
 
     > * { pointer-events: auto; }
@@ -65,7 +66,6 @@
     display: flex;
     align-items: center;
     gap: var(--sp-3);
-    margin-left: auto;
   }
 
   &__arrow-btn {
