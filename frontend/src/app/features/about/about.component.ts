@@ -128,17 +128,41 @@ import { RevealDirective } from '../../shared/directives/reveal.directive';
         </div>
         <div class="reg-side">
         <div class="card reg-card" appReveal>
-          <dl class="detail-list">
-            <div><dt>Business name</dt><dd>{{ s.company_name }}</dd></div>
-            <div><dt>Business type</dt><dd>{{ s.business_type }}</dd></div>
-            @if (s.mea_rc_number) {
-              <div><dt>MEA RC number</dt><dd><app-rc-number [value]="s.mea_rc_number" /></dd></div>
-              <div><dt>RC issued under</dt><dd>{{ s.mea_rc_authority }}</dd></div>
-            }
-            <div><dt>Shop &amp; Establishment No.</dt><dd>{{ s.registration_number }}</dd></div>
-            <div><dt>Registered under</dt><dd>{{ s.registration_authority }}</dd></div>
-            <div><dt>Registered owner</dt><dd>{{ s.registered_owner }}</dd></div>
-            <div><dt>Registered address</dt><dd>{{ s.address }}</dd></div>
+          @if (s.mea_rc_number) {
+            <div class="reg-band">
+              <span class="reg-band__icon"><app-icon name="shield" [size]="24" /></span>
+              <div>
+                <p class="reg-band__label">Approved by MEA · RC No.</p>
+                <p class="reg-band__rc"><app-rc-number [value]="s.mea_rc_number" /></p>
+                <p class="reg-band__sub">{{ s.mea_rc_authority }}</p>
+              </div>
+            </div>
+          }
+          <dl class="reg-grid">
+            <div class="reg-item">
+              <span class="reg-item__icon"><app-icon name="building" [size]="18" /></span>
+              <div><dt>Business name</dt><dd>{{ s.company_name }}</dd></div>
+            </div>
+            <div class="reg-item">
+              <span class="reg-item__icon"><app-icon name="briefcase" [size]="18" /></span>
+              <div><dt>Business type</dt><dd>{{ s.business_type }}</dd></div>
+            </div>
+            <div class="reg-item">
+              <span class="reg-item__icon"><app-icon name="user-check" [size]="18" /></span>
+              <div><dt>Registered owner</dt><dd>{{ s.registered_owner }}</dd></div>
+            </div>
+            <div class="reg-item">
+              <span class="reg-item__icon"><app-icon name="file-check" [size]="18" /></span>
+              <div>
+                <dt>Shop &amp; Establishment No.</dt>
+                <dd>{{ s.registration_number }}</dd>
+                <dd class="reg-item__note">{{ s.registration_authority }}</dd>
+              </div>
+            </div>
+            <div class="reg-item reg-item--wide">
+              <span class="reg-item__icon"><app-icon name="pin" [size]="18" /></span>
+              <div><dt>Registered address</dt><dd>{{ s.address }}</dd></div>
+            </div>
           </dl>
         </div>
         </div>
@@ -187,7 +211,36 @@ import { RevealDirective } from '../../shared/directives/reveal.directive';
     }
     .person strong { display: block; color: var(--navy-900); }
     .person span { font-size: var(--fs-sm); color: var(--grey-500); }
-    .reg-card { padding: var(--sp-3) var(--sp-5); }
+    .reg-card { overflow: hidden; padding: 0; }
+    .reg-band {
+      display: flex; gap: var(--sp-4); align-items: flex-start; padding: var(--sp-5) var(--sp-5);
+      background: var(--gradient-navy); color: rgba(255,255,255,.78);
+    }
+    .reg-band__icon {
+      display: inline-flex; flex: none; align-items: center; justify-content: center; width: 48px; height: 48px;
+      border-radius: 12px; background: var(--gold-500); color: var(--navy-950);
+    }
+    .reg-band__label { margin: 0 0 2px; font-size: .6875rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--gold-300); }
+    .reg-band__rc { margin: 0 0 4px; font-size: clamp(1.0625rem, 1rem + .4vw, 1.25rem); font-weight: 700; letter-spacing: .01em; color: #fff; }
+    .reg-band__sub { margin: 0; font-size: var(--fs-sm); line-height: 1.5; }
+    .reg-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; margin: 0; background: var(--grey-100); }
+    .reg-item {
+      display: flex; gap: var(--sp-3); align-items: flex-start; min-width: 0; padding: var(--sp-4) var(--sp-5);
+      background: #fff; transition: background-color var(--dur) var(--ease);
+    }
+    .reg-item:hover { background: var(--grey-25); }
+    .reg-item--wide { grid-column: 1 / -1; }
+    .reg-item__icon {
+      display: inline-flex; flex: none; align-items: center; justify-content: center; width: 36px; height: 36px;
+      border-radius: 10px; background: var(--gold-100); color: var(--gold-600);
+      transition: background-color var(--dur) var(--ease), color var(--dur) var(--ease);
+    }
+    .reg-item:hover .reg-item__icon { background: var(--navy-900); color: var(--gold-300); }
+    .reg-item > div { min-width: 0; }
+    .reg-item dt { font-size: var(--fs-xs); color: var(--grey-500); }
+    .reg-item dd { margin: 2px 0 0; font-size: var(--fs-sm); font-weight: 600; line-height: 1.5; color: var(--navy-900); overflow-wrap: anywhere; }
+    .reg-item dd.reg-item__note { margin-top: 2px; font-size: var(--fs-xs); font-weight: 400; color: var(--grey-500); }
+    @media (max-width: 479.98px) { .reg-grid { grid-template-columns: 1fr; } .reg-band { padding: var(--sp-4); } }
     .reg-side { display: grid; gap: var(--sp-5); min-width: 0; }
     .cert-row { max-width: calc(820px + var(--gutter) * 2); margin-top: var(--sp-7); }
     .closing { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--sp-5); }
