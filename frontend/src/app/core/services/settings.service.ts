@@ -20,6 +20,8 @@ const FALLBACK: SiteSettings = {
   whatsapp_number_alt2: '919455861117',
   address: 'X055 Singhariya, Near Ashoka Gas Godam, Kudaghat, Gorakhpur, Uttar Pradesh – 273008, India',
   business_type: 'Manpower Supply',
+  mea_rc_number: 'B-3411/UP/PER/100/5/11417/2026',
+  mea_rc_authority: 'Recruiting Agent registration, Ministry of External Affairs, Government of India',
   registration_number: 'UPSA59017079',
   registration_authority: 'Shop & Establishment Registration, Government of Uttar Pradesh',
   registered_owner: 'Dimpal Pandey',

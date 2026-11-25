@@ -34,6 +34,18 @@
     app-icon { color: var(--gold-300); }
   }
 
+  &__mea {
+    margin-right: 6px;
+    padding: 2px 8px;
+    border-radius: var(--radius-pill);
+    background: rgba(176, 141, 87, 0.2);
+    color: var(--gold-300);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
   &__reg {
     margin: 0;
     letter-spacing: 0.04em;

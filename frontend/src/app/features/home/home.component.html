@@ -68,8 +68,13 @@
     <div class="facts__item">
       <span class="facts__icon"><app-icon name="shield" [size]="22" /></span>
       <div>
-        <dt>Registration</dt>
-        <dd>{{ s.registration_number }}</dd>
+        @if (s.mea_rc_number) {
+          <dt>MEA Registered · RC No.</dt>
+          <dd><app-rc-number [value]="s.mea_rc_number" /></dd>
+        } @else {
+          <dt>Registration</dt>
+          <dd>{{ s.registration_number }}</dd>
+        }
       </div>
     </div>
     <div class="facts__item">
@@ -106,8 +111,13 @@
       <div class="about-badge">
         <app-icon name="shield" [size]="22" />
         <div>
-          <strong>Registered establishment</strong>
-          <span>Uttar Pradesh · Reg. No. {{ s.registration_number }}</span>
+          @if (s.mea_rc_number) {
+            <strong>Registered with MEA, Govt. of India</strong>
+            <span>Recruiting Agent · RC No. <app-rc-number [value]="s.mea_rc_number" /></span>
+          } @else {
+            <strong>Registered establishment</strong>
+            <span>Uttar Pradesh · Reg. No. {{ s.registration_number }}</span>
+          }
         </div>
       </div>
     </div>

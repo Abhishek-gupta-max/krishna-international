@@ -181,7 +181,7 @@ export const WHY_CHOOSE_US = [
   { title: 'Honest communication', text: 'Candidates are told plainly about the role, salary and conditions before they commit.' },
   { title: 'Single point of contact', text: 'Employers and candidates deal with one responsible person throughout the process.' },
   { title: 'Strong local network', text: 'Rooted in Gorakhpur, with access to skilled workers across Eastern Uttar Pradesh.' },
-  { title: 'Registered business', text: 'A registered establishment in Uttar Pradesh with a physical office you can visit.' },
+  { title: 'Registered business', text: 'A Recruiting Agent registered with the Ministry of External Affairs, with a physical office in Gorakhpur you can visit.' },
 ];
 
 /** Presentation only: line icon shown with each service card (keyed by service slug). */

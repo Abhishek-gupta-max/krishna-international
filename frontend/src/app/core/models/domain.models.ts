@@ -128,6 +128,8 @@ export interface SiteSettings {
   whatsapp_number_alt2: string;
   address: string;
   business_type: string;
+  mea_rc_number: string;
+  mea_rc_authority: string;
   registration_number: string;
   registration_authority: string;
   registered_owner: string;

@@ -5,11 +5,12 @@ import { SettingsService } from '../../../core/services/settings.service';
 import { NAV_LINKS } from '../header/header.component';
 import { IconComponent } from '../icon/icon.component';
 import { LogoComponent } from '../logo/logo.component';
+import { RcNumberComponent } from '../rc-number/rc-number.component';
 
 @Component({
   selector: 'app-footer',
   standalone: true,
-  imports: [RouterLink, IconComponent, LogoComponent],
+  imports: [RouterLink, IconComponent, LogoComponent, RcNumberComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     @let s = site.settings();
@@ -51,7 +52,11 @@ import { LogoComponent } from '../logo/logo.component';
           <p>{{ s.about_summary }}</p>
           <div class="footer__reg">
             <app-icon name="shield" [size]="18" />
-            <span>Registered establishment · Reg. No. {{ s.registration_number }}</span>
+            @if (s.mea_rc_number) {
+              <span>MEA Registered Recruiting Agent · RC No. <app-rc-number [value]="s.mea_rc_number" /></span>
+            } @else {
+              <span>Registered establishment · Reg. No. {{ s.registration_number }}</span>
+            }
           </div>
           @if (site.socialLinks().length) {
             <ul class="footer__social" aria-label="Social media">
@@ -134,7 +139,12 @@ import { LogoComponent } from '../logo/logo.component';
       <div class="footer__bottom">
         <div class="container footer__bottom-inner">
           <p>© {{ year }} {{ s.company_name }}. All rights reserved.</p>
-          <p class="footer__bottom-reg">{{ s.registration_authority }} · Reg. No. {{ s.registration_number }}</p>
+          <p class="footer__bottom-reg">
+            @if (s.mea_rc_number) {
+              MEA RC No. <app-rc-number [value]="s.mea_rc_number" /> ·
+            }
+            {{ s.registration_authority }} · Reg. No. {{ s.registration_number }}
+          </p>
           <button type="button" class="footer__top" (click)="toTop()" aria-label="Back to top">
             Back to top <span class="footer__top-arrow"><app-icon name="arrow" [size]="14" /></span>
           </button>
@@ -205,7 +215,7 @@ import { LogoComponent } from '../logo/logo.component';
     .footer__brand { display: inline-block; border-radius: var(--radius); }
     .footer__about p { margin: var(--sp-5) 0 var(--sp-5); max-width: 380px; line-height: 1.75; }
     .footer__reg {
-      display: inline-flex; align-items: center; gap: var(--sp-2); max-width: 100%;
+      display: inline-flex; align-items: flex-start; gap: var(--sp-2); max-width: 100%;
       padding: 8px 14px; border: 1px solid rgba(216,196,160,.25); border-radius: var(--radius-pill);
       background: rgba(176,141,87,.1); font-size: var(--fs-xs); color: var(--gold-300);
     }

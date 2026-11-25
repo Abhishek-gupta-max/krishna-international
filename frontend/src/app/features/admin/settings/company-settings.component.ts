@@ -37,7 +37,9 @@ const SECTIONS: { title: string; fields: FieldDef[] }[] = [
     title: 'Registration',
     fields: [
       { key: 'business_type', label: 'Business type' },
-      { key: 'registration_number', label: 'Registration number' },
+      { key: 'mea_rc_number', label: 'MEA RC number', hint: 'Recruiting Agent registration certificate number. Leave blank to hide.' },
+      { key: 'mea_rc_authority', label: 'RC issued under' },
+      { key: 'registration_number', label: 'Shop & Establishment number' },
       { key: 'registration_authority', label: 'Registered under' },
       { key: 'registered_owner', label: 'Registered owner' },
     ],

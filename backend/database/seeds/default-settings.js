@@ -19,6 +19,8 @@ module.exports = [
   { key: 'whatsapp_number_alt2', value: '919455861117', group: 'company' },
   { key: 'address', value: 'X055 Singhariya, Near Ashoka Gas Godam, Kudaghat, Gorakhpur, Uttar Pradesh – 273008, India', group: 'company', type: 'text' },
   { key: 'business_type', value: 'Manpower Supply', group: 'company' },
+  { key: 'mea_rc_number', value: 'B-3411/UP/PER/100/5/11417/2026', group: 'company' },
+  { key: 'mea_rc_authority', value: 'Recruiting Agent registration, Ministry of External Affairs, Government of India', group: 'company' },
   { key: 'registration_number', value: 'UPSA59017079', group: 'company' },
   { key: 'registration_authority', value: 'Shop & Establishment Registration, Government of Uttar Pradesh', group: 'company' },
   { key: 'registered_owner', value: 'Dimpal Pandey', group: 'company' },

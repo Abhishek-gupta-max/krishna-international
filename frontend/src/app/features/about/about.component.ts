@@ -2,13 +2,14 @@ import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/c
 import { RouterLink } from '@angular/router';
 import { SettingsService } from '../../core/services/settings.service';
 import { IconComponent } from '../../shared/components/icon/icon.component';
+import { RcNumberComponent } from '../../shared/components/rc-number/rc-number.component';
 import { PageHeaderComponent } from '../../shared/components/page-header/page-header.component';
 import { RevealDirective } from '../../shared/directives/reveal.directive';
 
 @Component({
   selector: 'app-about',
   standalone: true,
-  imports: [RouterLink, PageHeaderComponent, IconComponent, RevealDirective],
+  imports: [RouterLink, PageHeaderComponent, IconComponent, RevealDirective, RcNumberComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     @let s = site.settings();
@@ -105,14 +106,22 @@ import { RevealDirective } from '../../shared/directives/reveal.directive';
           <p class="eyebrow">Company registration</p>
           <h2 id="reg-title">Registration details</h2>
           <p class="lead">
-            The business is registered as an establishment in Uttar Pradesh. You are welcome to visit our office or call us to verify any vacancy or
-            communication that uses our name.
+            @if (s.mea_rc_number) {
+              We are a Recruiting Agent registered with the Ministry of External Affairs, Government of India, under the Emigration Act, 1983. Our
+              business premises are also registered as an establishment in Uttar Pradesh.
+            } @else {
+              The business is registered as an establishment in Uttar Pradesh.
+            }
+            You are welcome to visit our office or call us to verify any vacancy or communication that uses our name.
           </p>
           <div class="alert alert--info" style="margin-top: var(--sp-5)">
             <app-icon name="info" />
             <p>
-              The registration below is a Shop &amp; Establishment registration for our business premises. Please verify the details of any overseas
-              job offer directly with our office before making travel or payment decisions.
+              @if (s.mea_rc_number) {
+                You can check our Recruiting Agent registration (RC No. <app-rc-number [value]="s.mea_rc_number" />) on the Government of India's
+                <a href="https://emigrate.gov.in" target="_blank" rel="noopener noreferrer">eMigrate portal</a>.
+              }
+              Please verify the details of any overseas job offer directly with our office before making travel or payment decisions.
             </p>
           </div>
         </div>
@@ -120,7 +129,11 @@ import { RevealDirective } from '../../shared/directives/reveal.directive';
           <dl class="detail-list">
             <div><dt>Business name</dt><dd>{{ s.company_name }}</dd></div>
             <div><dt>Business type</dt><dd>{{ s.business_type }}</dd></div>
-            <div><dt>Registration number</dt><dd>{{ s.registration_number }}</dd></div>
+            @if (s.mea_rc_number) {
+              <div><dt>MEA RC number</dt><dd><app-rc-number [value]="s.mea_rc_number" /></dd></div>
+              <div><dt>RC issued under</dt><dd>{{ s.mea_rc_authority }}</dd></div>
+            }
+            <div><dt>Shop &amp; Establishment No.</dt><dd>{{ s.registration_number }}</dd></div>
             <div><dt>Registered under</dt><dd>{{ s.registration_authority }}</dd></div>
             <div><dt>Registered owner</dt><dd>{{ s.registered_owner }}</dd></div>
             <div><dt>Registered address</dt><dd>{{ s.address }}</dd></div>

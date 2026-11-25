@@ -113,6 +113,6 @@ During development the full flow was also verified against a real database: 50 A
 - **Social media links and office hours** — Admin → Company settings.
 - **Review all copy** in Admin → Website content and `frontend/src/app/core/models/reference-data.ts` (services, process, “why choose us”).
 
-> **Regulatory note:** The registration shown on the site is a Uttar Pradesh Shop & Establishment registration. The website deliberately does **not** describe it as a recruiting licence. Before recruiting Indian workers for overseas employment, confirm the company's obligations under the Emigration Act, 1983 (Recruiting Agent registration with the Ministry of External Affairs / eMigrate) and update the wording on the site accordingly.
+> **Regulatory note:** The company is a Recruiting Agent registered with the Ministry of External Affairs under the Emigration Act, 1983 (RC No. B-3411/UP/PER/100/5/11417/2026, as confirmed by the company). The site also shows the separate Uttar Pradesh Shop & Establishment registration (UPSA59017079). Both values are editable in Admin → Company settings; keep the RC number current when the registration is renewed.
 
 See **docs/DEPLOYMENT.md** for production deployment, **docs/API_DOCUMENTATION.md** for endpoints and **docs/DATABASE_SCHEMA.md** for the data model.
