@@ -50,6 +50,12 @@
 
   <div class="container hero__inner">
     <div class="hero__text">
+      @if (s.mea_rc_number) {
+        <p class="hero__approved">
+          <app-icon name="shield" [size]="16" />
+          <span><strong>Approved by MEA</strong> · <span class="hero__approved-long">Ministry of External Affairs, </span>Govt. of India</span>
+        </p>
+      }
       <p class="hero__eyebrow"><span class="hero__dot" aria-hidden="true"></span>Manpower Recruitment · Gorakhpur, India</p>
       <h1 id="hero-title">{{ s.hero_title }}</h1>
       <p class="hero__lead">{{ s.hero_subtitle }}</p>
@@ -69,7 +75,7 @@
       <span class="facts__icon"><app-icon name="shield" [size]="22" /></span>
       <div>
         @if (s.mea_rc_number) {
-          <dt>MEA Registered · RC No.</dt>
+          <dt>Approved by MEA · RC No.</dt>
           <dd><app-rc-number [value]="s.mea_rc_number" /></dd>
         } @else {
           <dt>Registration</dt>
@@ -112,7 +118,7 @@
         <app-icon name="shield" [size]="22" />
         <div>
           @if (s.mea_rc_number) {
-            <strong>Registered with MEA, Govt. of India</strong>
+            <strong>Approved by MEA, Govt. of India</strong>
             <span>Recruiting Agent · RC No. <app-rc-number [value]="s.mea_rc_number" /></span>
             @if (s.mea_rc_document_url) {
               <a class="about-badge__link" [href]="s.mea_rc_document_url" target="_blank" rel="noopener">View certificate <app-icon name="external" [size]="14" /></a>

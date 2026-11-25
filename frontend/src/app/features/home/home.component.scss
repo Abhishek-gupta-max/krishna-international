@@ -137,6 +137,8 @@
 
   &__text { max-width: 640px; }
 
+  &__approved + &__eyebrow { display: flex; width: fit-content; }
+
   &__eyebrow {
     display: inline-flex;
     align-items: center;
@@ -152,6 +154,24 @@
     letter-spacing: 0.12em;
     text-transform: uppercase;
     color: var(--gold-300);
+  }
+
+  // "Approved by MEA" pill (shown when an RC number is set)
+  &__approved {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--sp-2);
+    margin: 0 0 var(--sp-3);
+    padding: 7px 14px 7px 10px;
+    border-radius: var(--radius-pill);
+    background: var(--gold-500);
+    color: var(--navy-950);
+    font-size: var(--fs-xs);
+    font-weight: 500;
+    box-shadow: var(--shadow-gold);
+
+    strong { font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; }
+    @media (max-width: 575.98px) { .hero__approved-long { display: none; } }
   }
 
   &__dot {

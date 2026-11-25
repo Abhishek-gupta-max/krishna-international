@@ -53,14 +53,14 @@ import { RcNumberComponent } from '../rc-number/rc-number.component';
           <div class="footer__reg">
             <app-icon name="shield" [size]="18" />
             @if (s.mea_rc_number) {
-              <span>MEA Registered Recruiting Agent · RC No. <app-rc-number [value]="s.mea_rc_number" /></span>
+              <span>Approved by MEA · Recruiting Agent · RC No. <app-rc-number [value]="s.mea_rc_number" /></span>
             } @else {
               <span>Registered establishment · Reg. No. {{ s.registration_number }}</span>
             }
           </div>
           @if (s.mea_rc_number && s.mea_rc_document_url) {
             <a class="footer__cert" [href]="s.mea_rc_document_url" target="_blank" rel="noopener">
-              View MEA registration certificate <app-icon name="external" [size]="14" />
+              View MEA approval certificate <app-icon name="external" [size]="14" />
             </a>
           }
           @if (site.socialLinks().length) {
