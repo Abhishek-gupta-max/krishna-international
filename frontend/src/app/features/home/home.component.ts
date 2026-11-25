@@ -3,6 +3,7 @@ import { RouterLink } from '@angular/router';
 import { PROCESS_STEPS, SECTORS, SERVICE_ICONS, SERVICES, WHY_CHOOSE_US, WHY_ICONS } from '../../core/models/reference-data';
 import { SettingsService } from '../../core/services/settings.service';
 import { IconComponent } from '../../shared/components/icon/icon.component';
+import { CertificateViewerComponent } from '../../shared/components/certificate-viewer/certificate-viewer.component';
 import { RcNumberComponent } from '../../shared/components/rc-number/rc-number.component';
 import { RevealDirective } from '../../shared/directives/reveal.directive';
 
@@ -18,7 +19,7 @@ const SLIDE_INTERVAL_MS = 6000;
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [RouterLink, IconComponent, RcNumberComponent, RevealDirective],
+  imports: [RouterLink, IconComponent, RcNumberComponent, CertificateViewerComponent, RevealDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',

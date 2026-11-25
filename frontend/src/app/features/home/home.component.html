@@ -146,6 +146,22 @@
   </div>
 </section>
 
+<!-- ============ MEA certificate (view only) ============ -->
+@if (s.mea_rc_number && s.mea_rc_document_url) {
+  <section class="section section--alt" aria-labelledby="cert-title">
+    <div class="container cert-section">
+      <div class="section-head section-head--center">
+        <p class="eyebrow">Approved by MEA</p>
+        <h2 id="cert-title">Our registration certificate</h2>
+        <p>Issued by the Ministry of External Affairs, Government of India.</p>
+      </div>
+      <div class="cert-section__viewer" appReveal>
+        <app-certificate-viewer [url]="s.mea_rc_document_url" />
+      </div>
+    </div>
+  </section>
+}
+
 <!-- ============ Services ============ -->
 <section class="section section--soft" aria-labelledby="services-title">
   <div class="container">

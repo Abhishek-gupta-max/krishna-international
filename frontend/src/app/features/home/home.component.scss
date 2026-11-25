@@ -768,3 +768,9 @@
     transition: background-color var(--dur) var(--ease), color var(--dur) var(--ease);
   }
 }
+
+// ---------- MEA certificate (view only) ----------
+.cert-section__viewer {
+  max-width: 820px;
+  margin-inline: auto;
+}
