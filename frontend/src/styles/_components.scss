@@ -225,3 +225,10 @@
   .card.reveal.is-visible:hover { transform: none; }
   .media-frame:hover img { transform: none; }
 }
+
+.reveal.reveal--done { transition-delay: 0ms !important; }
+
+// Staggered reveal: siblings in a row fade up one after another (max ~240ms total)
+:is(.grid, .why, .timeline, .sectors, .cta-pair, .facts) > .reveal:nth-child(4n + 2) { transition-delay: 80ms; }
+:is(.grid, .why, .timeline, .sectors, .cta-pair, .facts) > .reveal:nth-child(4n + 3) { transition-delay: 160ms; }
+:is(.grid, .why, .timeline, .sectors, .cta-pair, .facts) > .reveal:nth-child(4n + 4) { transition-delay: 240ms; }

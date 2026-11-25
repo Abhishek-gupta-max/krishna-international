@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, DestroyRef, inject, OnInit, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { PROCESS_STEPS, SECTORS, SERVICE_ICONS, SERVICES, WHY_CHOOSE_US, WHY_ICONS } from '../../core/models/reference-data';
+import { PROCESS_ICONS, PROCESS_STEPS, SECTORS, SERVICE_ICONS, SERVICES, WHY_CHOOSE_US, WHY_ICONS } from '../../core/models/reference-data';
 import { SettingsService } from '../../core/services/settings.service';
 import { IconComponent } from '../../shared/components/icon/icon.component';
 import { CertificateViewerComponent } from '../../shared/components/certificate-viewer/certificate-viewer.component';
@@ -33,6 +33,7 @@ export class HomeComponent implements OnInit {
   protected readonly reasons = WHY_CHOOSE_US;
   protected readonly serviceIcons = SERVICE_ICONS;
   protected readonly whyIcons = WHY_ICONS;
+  protected readonly processIcons = PROCESS_ICONS;
 
   protected readonly testimonials = computed(() => (this.site.settings().testimonials ?? []).filter((t) => t?.name && t?.quote));
   protected readonly objectives = computed(() => this.site.settings().objectives ?? []);

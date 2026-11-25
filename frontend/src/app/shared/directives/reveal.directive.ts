@@ -19,6 +19,9 @@ export class RevealDirective implements AfterViewInit, OnDestroy {
       (entries) => {
         for (const entry of entries) {
           if (entry.isIntersecting) {
+            // Once the fade-in has finished, drop any stagger delay so hover effects respond instantly.
+            node.addEventListener('transitionend', () => node.classList.add('reveal--done'), { once: true });
+            setTimeout(() => node.classList.add('reveal--done'), 1200);
             node.classList.add('is-visible');
             this.observer?.disconnect();
           }

@@ -49,7 +49,7 @@
   </div>
 
   <div class="container hero__inner">
-    <div class="hero__text">
+    <div class="hero__text hero__text--enter">
       @if (s.mea_rc_number) {
         <p class="hero__approved">
           <app-icon name="shield" [size]="16" />
@@ -229,6 +229,7 @@
         <li class="timeline__step" appReveal>
           <span class="timeline__num" aria-hidden="true">{{ pad(i + 1) }}</span>
           <div class="timeline__body">
+            <span class="timeline__icon"><app-icon [name]="processIcons[step.title] || 'check'" [size]="20" /></span>
             <span class="timeline__label">Step {{ i + 1 }}</span>
             <h3>{{ step.title }}</h3>
             <p>{{ step.text }}</p>
@@ -263,31 +264,52 @@
   </div>
 </section>
 
-<!-- ============ Employer + Candidate CTAs ============ -->
-<section class="section" aria-label="Get started">
-  <div class="container cta-pair">
-    <article class="cta cta--navy" appReveal>
-      <p class="eyebrow">For employers</p>
-      <h2>Need workers for your project?</h2>
-      <p>Tell us the positions, numbers, experience and terms. We will come back with a sourcing plan and timeline.</p>
-      <ul class="check-list">
-        <li>Skilled, semi-skilled and unskilled roles</li>
-        <li>Screened profiles and arranged interviews</li>
-        <li>One point of contact from start to joining</li>
-      </ul>
-      <a routerLink="/employers" class="btn btn--gold">Submit employer enquiry</a>
-    </article>
-    <article class="cta" appReveal>
-      <p class="eyebrow">For candidates</p>
-      <h2>Looking for work abroad?</h2>
-      <p>Register once with your details and CV. We will contact you when a vacancy matches your trade and experience.</p>
-      <ul class="check-list">
-        <li>Simple online registration with CV upload</li>
-        <li>Clear information about the job and employer</li>
-        <li>Guidance through interviews and paperwork</li>
-      </ul>
-      <a routerLink="/candidates" class="btn">Register as a candidate</a>
-    </article>
+<!-- ============ Employer + Candidate sections ============ -->
+<section class="section" aria-labelledby="audience-title">
+  <div class="container">
+    <div class="section-head section-head--center">
+      <p class="eyebrow">Get started</p>
+      <h2 id="audience-title">Employers and job seekers</h2>
+      <p>Whether you are hiring or looking for work abroad, start with a short form — our team in Gorakhpur takes it from there.</p>
+    </div>
+    <div class="cta-pair">
+      <article class="cta cta--navy" appReveal>
+        <div class="cta__media">
+          <img src="assets/images/service-employer-800.webp" alt="" loading="lazy" width="800" height="533" />
+        </div>
+        <span class="cta__icon"><app-icon name="building" [size]="24" /></span>
+        <p class="eyebrow">For employers</p>
+        <h2>Need workers for your project?</h2>
+        <p>Tell us the positions, numbers, experience and terms. We will come back with a sourcing plan and timeline.</p>
+        <ul class="check-list">
+          <li>Skilled, semi-skilled and unskilled roles</li>
+          <li>Screened profiles and arranged interviews</li>
+          <li>One point of contact from start to joining</li>
+        </ul>
+        <div class="cta__actions">
+          <a routerLink="/employers" class="btn btn--gold">Submit employer enquiry <app-icon name="arrow" [size]="18" /></a>
+          <a routerLink="/services" class="cta__link">Explore recruitment services <app-icon name="arrow" [size]="16" /></a>
+        </div>
+      </article>
+      <article class="cta" appReveal>
+        <div class="cta__media">
+          <img src="assets/images/service-skilled-800.webp" alt="" loading="lazy" width="800" height="533" />
+        </div>
+        <span class="cta__icon"><app-icon name="user-check" [size]="24" /></span>
+        <p class="eyebrow">For candidates</p>
+        <h2>Looking for work abroad?</h2>
+        <p>Register once with your details and CV. We will contact you when a vacancy matches your trade and experience.</p>
+        <ul class="check-list">
+          <li>Simple online registration with CV upload</li>
+          <li>Clear information about the job and employer</li>
+          <li>Guidance through interviews and paperwork</li>
+        </ul>
+        <div class="cta__actions">
+          <a routerLink="/candidates" class="btn">Register as a candidate <app-icon name="arrow" [size]="18" /></a>
+          <a routerLink="/services" class="cta__link">Explore our services <app-icon name="arrow" [size]="16" /></a>
+        </div>
+      </article>
+    </div>
   </div>
 </section>
 

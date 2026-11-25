@@ -372,9 +372,9 @@
     background: var(--navy-900);
     color: var(--gold-300);
     box-shadow: var(--shadow);
-    transition: background-color var(--dur) var(--ease), color var(--dur) var(--ease);
+    transition: background-color var(--dur) var(--ease), color var(--dur) var(--ease), transform var(--dur-slow) var(--ease);
   }
-  &:hover &__icon { background: var(--gold-500); color: var(--navy-950); }
+  &:hover &__icon { background: var(--gold-500); color: var(--navy-950); transform: translateY(-4px) rotate(-6deg); }
 
   &__body {
     display: flex;
@@ -507,6 +507,20 @@
   }
   &__step:hover &__body { background: rgba(255, 255, 255, 0.07); border-color: rgba(216, 196, 160, 0.35); }
 
+  &__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    margin-bottom: var(--sp-3);
+    border-radius: 10px;
+    background: rgba(176, 141, 87, 0.16);
+    color: var(--gold-300);
+    transition: transform var(--dur-slow) var(--ease), background-color var(--dur) var(--ease), color var(--dur) var(--ease);
+  }
+  &__step:hover &__icon { transform: translateY(-3px); background: var(--gold-500); color: var(--navy-950); }
+
   &__label {
     display: block;
     margin-bottom: 4px;
@@ -537,12 +551,13 @@
 
     &__step {
       grid-template-columns: 1fr;
+      grid-template-rows: auto 1fr; // circle row, then a card that fills the rest (equal heights)
       justify-items: center;
       text-align: center;
       gap: var(--sp-5);
     }
 
-    &__body { height: 100%; padding: var(--sp-5) var(--sp-4); }
+    &__body { align-self: stretch; width: 100%; padding: var(--sp-5) var(--sp-4); }
   }
 }
 
@@ -600,9 +615,9 @@
     border-radius: 12px;
     background: var(--gold-100);
     color: var(--gold-600);
-    transition: background-color var(--dur) var(--ease), color var(--dur) var(--ease);
+    transition: background-color var(--dur) var(--ease), color var(--dur) var(--ease), transform var(--dur-slow) var(--ease);
   }
-  &__item:hover &__icon { background: var(--navy-900); color: var(--gold-300); }
+  &__item:hover &__icon { background: var(--navy-900); color: var(--gold-300); transform: translateY(-3px) rotate(-6deg); }
 }
 
 // ---------- CTA pair ----------
@@ -630,7 +645,63 @@
   h2 { font-size: var(--fs-xl); }
   p { color: var(--color-text-muted); }
   .check-list { margin: var(--sp-2) 0 var(--sp-6); font-size: var(--fs-sm); }
-  .btn { margin-top: auto; }
+
+  // Photo header bleeding to the card edges
+  &__media {
+    position: relative;
+    align-self: stretch;
+    height: clamp(150px, 12vw + 60px, 210px);
+    margin: calc(clamp(1.75rem, 1rem + 3vw, 3rem) * -1) calc(clamp(1.75rem, 1rem + 3vw, 3rem) * -1) 0;
+    overflow: hidden;
+
+    img { width: 100%; height: 100%; object-fit: cover; transition: transform 900ms var(--ease); }
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(11, 37, 69, 0) 35%, rgba(11, 37, 69, 0.55) 100%);
+    }
+  }
+  &:hover &__media img { transform: scale(1.06); }
+
+  &__icon {
+    position: relative;
+    z-index: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    margin: -28px 0 var(--sp-4);
+    border: 3px solid var(--white);
+    border-radius: 16px;
+    background: var(--navy-900);
+    color: var(--gold-300);
+    box-shadow: var(--shadow);
+    transition: transform var(--dur-slow) var(--ease);
+  }
+  &:hover &__icon { transform: translateY(-3px) rotate(-6deg); }
+
+  &__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--sp-3) var(--sp-5);
+    margin-top: auto;
+  }
+
+  &__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: var(--fs-sm);
+    font-weight: 600;
+    color: var(--navy-900);
+    text-decoration: none;
+    &:hover { color: var(--gold-600); }
+  }
+
+  @media (max-width: 479.98px) { &__actions .btn { width: 100%; } }
 
   &--navy {
     background: var(--gradient-navy);
@@ -640,6 +711,8 @@
     p, .check-list { color: rgba(255, 255, 255, 0.78); }
     .check-list li::before { border-color: var(--gold-300); }
     .eyebrow { color: var(--gold-300); }
+    .cta__icon { border-color: var(--navy-900); background: var(--gold-500); color: var(--navy-950); }
+    .cta__link { color: var(--white); &:hover { color: var(--gold-300); } }
 
     // Decorative concentric rings
     &::after {
@@ -773,4 +846,19 @@
 .cert-section__viewer {
   max-width: 820px;
   margin-inline: auto;
+}
+
+// ---------- Hero text entrance ----------
+.hero__text--enter > * {
+  animation: hero-enter 800ms var(--ease) both;
+}
+.hero__text--enter > :nth-child(1) { animation-delay: 80ms; }
+.hero__text--enter > :nth-child(2) { animation-delay: 180ms; }
+.hero__text--enter > :nth-child(3) { animation-delay: 280ms; }
+.hero__text--enter > :nth-child(4) { animation-delay: 400ms; }
+.hero__text--enter > :nth-child(5) { animation-delay: 520ms; }
+
+@keyframes hero-enter {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: none; }
 }

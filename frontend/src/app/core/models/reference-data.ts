@@ -205,3 +205,13 @@ export const WHY_ICONS: Record<string, string> = {
   'Strong local network': 'network',
   'Registered business': 'shield',
 };
+
+/** Presentation only: icon for each recruitment process step (keyed by title). */
+export const PROCESS_ICONS: Record<string, string> = {
+  Requirement: 'file',
+  Sourcing: 'search',
+  Screening: 'file-check',
+  'Interview & assessment': 'users',
+  'Selection & documentation': 'award',
+  'Joining & follow-up': 'handshake',
+};
