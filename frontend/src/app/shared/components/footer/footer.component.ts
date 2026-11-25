@@ -58,6 +58,11 @@ import { RcNumberComponent } from '../rc-number/rc-number.component';
               <span>Registered establishment · Reg. No. {{ s.registration_number }}</span>
             }
           </div>
+          @if (s.mea_rc_number && s.mea_rc_document_url) {
+            <a class="footer__cert" [href]="s.mea_rc_document_url" target="_blank" rel="noopener">
+              View MEA registration certificate <app-icon name="external" [size]="14" />
+            </a>
+          }
           @if (site.socialLinks().length) {
             <ul class="footer__social" aria-label="Social media">
               @for (l of site.socialLinks(); track l.name) {
@@ -220,6 +225,8 @@ import { RcNumberComponent } from '../rc-number/rc-number.component';
       background: rgba(176,141,87,.1); font-size: var(--fs-xs); color: var(--gold-300);
     }
     .footer__reg span { overflow-wrap: anywhere; }
+    .footer .footer__cert { display: flex; align-items: center; gap: 6px; margin-top: var(--sp-3); font-size: var(--fs-xs); font-weight: 600; color: var(--gold-300); }
+    .footer .footer__cert:hover { color: #fff; text-decoration: underline; }
     .footer__social { display: flex; gap: var(--sp-2); margin: var(--sp-5) 0 0; padding: 0; list-style: none; }
     .footer .footer__social a {
       display: inline-flex; align-items: center; justify-content: center; width: 42px; height: 42px;

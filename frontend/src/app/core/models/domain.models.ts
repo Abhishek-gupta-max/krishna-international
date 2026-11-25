@@ -130,6 +130,9 @@ export interface SiteSettings {
   business_type: string;
   mea_rc_number: string;
   mea_rc_authority: string;
+  mea_rc_issued_on: string;
+  mea_rc_valid_until: string;
+  mea_rc_document_url: string;
   registration_number: string;
   registration_authority: string;
   registered_owner: string;

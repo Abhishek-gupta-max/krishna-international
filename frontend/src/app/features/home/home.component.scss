@@ -315,6 +315,11 @@
   app-icon { color: var(--gold-600); }
   strong { display: block; font-size: var(--fs-sm); color: var(--navy-900); }
   span { font-size: var(--fs-xs); color: var(--grey-500); }
+  &__link {
+    display: flex; width: fit-content; align-items: center; gap: 4px; margin-top: 6px;
+    font-size: var(--fs-xs); font-weight: 600; color: var(--navy-800); text-decoration: none;
+    &:hover { color: var(--gold-600); text-decoration: underline; }
+  }
 }
 
 // ---------- Services ----------

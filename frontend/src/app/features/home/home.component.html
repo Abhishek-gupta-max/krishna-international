@@ -114,6 +114,9 @@
           @if (s.mea_rc_number) {
             <strong>Registered with MEA, Govt. of India</strong>
             <span>Recruiting Agent · RC No. <app-rc-number [value]="s.mea_rc_number" /></span>
+            @if (s.mea_rc_document_url) {
+              <a class="about-badge__link" [href]="s.mea_rc_document_url" target="_blank" rel="noopener">View certificate <app-icon name="external" [size]="14" /></a>
+            }
           } @else {
             <strong>Registered establishment</strong>
             <span>Uttar Pradesh · Reg. No. {{ s.registration_number }}</span>

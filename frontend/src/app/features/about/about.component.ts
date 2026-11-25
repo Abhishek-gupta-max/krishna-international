@@ -125,6 +125,35 @@ import { RevealDirective } from '../../shared/directives/reveal.directive';
             </p>
           </div>
         </div>
+        <div class="reg-side">
+        @if (s.mea_rc_number) {
+          <div class="card cert" appReveal>
+            <div class="cert__head">
+              <span class="cert__icon"><app-icon name="award" [size]="26" /></span>
+              <div>
+                <p class="cert__eyebrow">Government of India · Ministry of External Affairs</p>
+                <h3 class="cert__title">Registration Certificate</h3>
+                <p class="cert__sub">Issued under Section 11 of the Emigration Act, 1983</p>
+              </div>
+            </div>
+            <dl class="cert__facts">
+              <div><dt>RC No.</dt><dd><app-rc-number [value]="s.mea_rc_number" /></dd></div>
+              @if (s.mea_rc_issued_on) {
+                <div><dt>Issued on</dt><dd>{{ s.mea_rc_issued_on }}</dd></div>
+              }
+              @if (s.mea_rc_valid_until) {
+                <div><dt>Valid until</dt><dd>{{ s.mea_rc_valid_until }}</dd></div>
+              }
+              <div><dt>Issued by</dt><dd>Protector General of Emigrants, New Delhi</dd></div>
+            </dl>
+            @if (s.mea_rc_document_url) {
+              <div class="btn-row">
+                <a class="btn" [href]="s.mea_rc_document_url" target="_blank" rel="noopener"><app-icon name="eye" [size]="18" /> View certificate</a>
+                <a class="btn btn--outline" [href]="s.mea_rc_document_url" download="Krishna-International-MEA-RC.pdf"><app-icon name="download" [size]="18" /> Download PDF</a>
+              </div>
+            }
+          </div>
+        }
         <div class="card reg-card" appReveal>
           <dl class="detail-list">
             <div><dt>Business name</dt><dd>{{ s.company_name }}</dd></div>
@@ -138,6 +167,7 @@ import { RevealDirective } from '../../shared/directives/reveal.directive';
             <div><dt>Registered owner</dt><dd>{{ s.registered_owner }}</dd></div>
             <div><dt>Registered address</dt><dd>{{ s.address }}</dd></div>
           </dl>
+        </div>
         </div>
       </div>
     </section>
@@ -180,6 +210,17 @@ import { RevealDirective } from '../../shared/directives/reveal.directive';
     .person strong { display: block; color: var(--navy-900); }
     .person span { font-size: var(--fs-sm); color: var(--grey-500); }
     .reg-card { padding: var(--sp-3) var(--sp-5); }
+    .reg-side { display: grid; gap: var(--sp-5); min-width: 0; }
+    .cert { padding: clamp(1.25rem, 1rem + 1vw, 1.75rem); border-color: var(--gold-300); background: linear-gradient(160deg, #fff 0%, var(--gold-100) 160%); }
+    .cert__head { display: flex; gap: var(--sp-4); align-items: flex-start; margin-bottom: var(--sp-5); }
+    .cert__icon { display: inline-flex; flex: none; align-items: center; justify-content: center; width: 52px; height: 52px; border-radius: 14px; background: var(--navy-900); color: var(--gold-300); }
+    .cert__eyebrow { margin: 0 0 2px; font-size: .6875rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--gold-600); }
+    .cert__title { margin: 0 0 2px; font-size: var(--fs-lg); }
+    .cert__sub { margin: 0; font-size: var(--fs-sm); color: var(--grey-600); }
+    .cert__facts { display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-4) var(--sp-5); margin: 0 0 var(--sp-5); padding: var(--sp-4) 0; border-top: 1px solid var(--grey-100); border-bottom: 1px solid var(--grey-100); }
+    .cert__facts dt { font-size: var(--fs-xs); color: var(--grey-500); }
+    .cert__facts dd { margin: 2px 0 0; font-size: var(--fs-sm); font-weight: 600; color: var(--navy-900); }
+    @media (max-width: 419.98px) { .cert__facts { grid-template-columns: 1fr; } }
     .closing { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--sp-5); }
     .closing h2 { margin: 0; }
   `,
