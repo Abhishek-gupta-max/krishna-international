@@ -27,16 +27,6 @@ export const routes: Routes = [
         },
       },
       {
-        path: 'job-sectors',
-        loadComponent: () => import('./features/job-sectors/job-sectors.component').then((m) => m.JobSectorsComponent),
-        data: {
-          seo: {
-            title: 'Job Sectors',
-            description: 'Industry sectors and trades we recruit for: construction, oil and gas, manufacturing, hospitality, healthcare, logistics and more.',
-          },
-        },
-      },
-      {
         path: 'services',
         loadComponent: () => import('./features/services/services.component').then((m) => m.ServicesComponent),
         data: {

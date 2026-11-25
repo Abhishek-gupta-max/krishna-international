@@ -19,7 +19,6 @@ const api = (process.env.API_URL || '').replace(/\/+$/, '');
 const staticPages = [
   { path: '/', priority: '1.0', changefreq: 'weekly' },
   { path: '/about', priority: '0.7', changefreq: 'monthly' },
-  { path: '/job-sectors', priority: '0.8', changefreq: 'monthly' },
   { path: '/services', priority: '0.8', changefreq: 'monthly' },
   { path: '/employers', priority: '0.8', changefreq: 'monthly' },
   { path: '/candidates', priority: '0.8', changefreq: 'monthly' },
