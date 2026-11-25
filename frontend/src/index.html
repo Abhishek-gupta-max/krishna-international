@@ -46,7 +46,7 @@
   <style>
     #preloader{position:fixed;inset:0;z-index:2000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;
       background:radial-gradient(ellipse at 50% 40%,#13315c 0%,#0b2545 55%,#061427 100%);transition:opacity .45s ease,visibility .45s ease}
-    #preloader.is-hidden{opacity:0;visibility:hidden}
+    #preloader.is-hidden{opacity:0;visibility:hidden;pointer-events:none}
     #preloader .pl-ring{position:relative;width:112px;height:112px}
     #preloader .pl-ring::before{content:"";position:absolute;inset:0;border-radius:50%;border:3px solid rgba(216,196,160,.18);border-top-color:#b08d57;border-right-color:#d8c4a0;animation:pl-spin 1s linear infinite}
     #preloader img{position:absolute;inset:12px;width:88px;height:88px;border-radius:50%;background:#fff;animation:pl-pulse 1.6s ease-in-out infinite}
